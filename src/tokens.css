@@ -68,6 +68,12 @@
 
 .dark {
   --background: var(--navy);
+  /* petri field — faint specimen dish texture in dark mode */
+  --field-texture: radial-gradient(
+    circle at center,
+    color-mix(in oklch, var(--primary) 14%, transparent) 1px,
+    transparent 1.5px
+  );
   --foreground: oklch(0.94 0.015 var(--hue));
   --card: oklch(0.23 0.035 var(--hue));
   --card-foreground: var(--foreground);

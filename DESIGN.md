@@ -27,27 +27,27 @@ Primitives → semantic roles → pattern tokens.
 
 Composable motif classes:
 
-| Class | Motif |
-| --- | --- |
-| `.dot` | filled organism dot (with glow) |
-| `.port` | hollow connector dot on a line |
-| `.key` | mono `label:` in brand blue |
+| Class       | Motif                                                                                                         |
+| ----------- | ------------------------------------------------------------------------------------------------------------- |
+| `.dot`      | filled organism dot (with glow)                                                                               |
+| `.port`     | hollow connector dot on a line                                                                                |
+| `.key`      | mono `label:` in brand blue                                                                                   |
 | `.doc-keys` | opt-in page class — every `h2` becomes a `key:` with a port on its hairline; the document reads as a manifest |
-| `.doc-end` | renders `...`, the YAML document-end marker |
+| `.doc-end`  | renders `...`, the YAML document-end marker                                                                   |
 
 ## Layer 3 — components (`src/components/`)
 
 Registered globally by the theme's `enhanceApp` — usable in any markdown
 without imports. All props are typed (`LayerItem`, `SpecRow`, `LedgerItem`).
 
-| Component | Motif | Props |
-| --- | --- | --- |
-| `<Murmuration>` | agents murmurate, not merge — live boids swarm canvas | `count?: number` |
-| `<WireLog>` | the wire — streaming op transcript card | `lines: string[]`, `label?`, `stream?` |
-| `<Layers>` | strata — contiguous layer diagram | `layers: LayerItem[]` |
-| `<Specimen>` | deterministic organic blob per name | `name: string` |
-| `<SpecRows>` | spec-sheet key/value rows | `rows: SpecRow[]` |
-| `<Ledger>` | record-table registry — specimen, status pill, keywords, links, status filters | `items: LedgerItem[]`, `filterable?` |
+| Component       | Motif                                                                          | Props                                  |
+| --------------- | ------------------------------------------------------------------------------ | -------------------------------------- |
+| `<Murmuration>` | agents murmurate, not merge — live boids swarm canvas                          | `count?: number`                       |
+| `<WireLog>`     | the wire — streaming op transcript card                                        | `lines: string[]`, `label?`, `stream?` |
+| `<Layers>`      | strata — contiguous layer diagram                                              | `layers: LayerItem[]`                  |
+| `<Specimen>`    | deterministic organic blob per name                                            | `name: string`                         |
+| `<SpecRows>`    | spec-sheet key/value rows                                                      | `rows: SpecRow[]`                      |
+| `<Ledger>`      | record-table registry — specimen, status pill, keywords, links, status filters | `items: LedgerItem[]`, `filterable?`   |
 
 ## Layer 4 — composition
 

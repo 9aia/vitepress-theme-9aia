@@ -16,6 +16,11 @@ body {
   letter-spacing: var(--tracking-normal);
 }
 
+.dark body {
+  background-image: var(--field-texture, none);
+  background-size: 28px 28px;
+}
+
 code,
 pre,
 kbd,

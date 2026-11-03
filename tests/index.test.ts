@@ -1,8 +1,7 @@
 import { readFileSync } from "node:fs";
 import { expect, test } from "vite-plus/test";
 
-const css = (name: string) =>
-  readFileSync(new URL(`../src/${name}`, import.meta.url), "utf8");
+const css = (name: string) => readFileSync(new URL(`../src/${name}`, import.meta.url), "utf8");
 
 test("palette is anchored on #00f", () => {
   expect(css("tokens.css")).toContain("--blue: #0000ff");
