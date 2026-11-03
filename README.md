@@ -1,8 +1,11 @@
 # vitepress-theme-9aia
 
-Rounded, blue (`#00f`) VitePress theme — the 9aia docs look. Extends the
-VitePress default theme with an oklch blue palette, pill buttons, rounded
-cards/code/tables, and light + dark modes.
+The 9aia design language for VitePress — rounded, blue (`#00f`),
+organism-aware. Extends the default theme with a token system, composable
+motif patterns, and components: murmuration canvas, wire logs, strata
+layers, specimen glyphs, spec rows, ledger registries.
+
+See [DESIGN.md](./DESIGN.md) for the system.
 
 ## Install
 
@@ -22,13 +25,35 @@ pnpm add github:9aia/vitepress-theme-9aia#v0.1.0
 export { default } from "vitepress-theme-9aia";
 ```
 
-Or just the CSS, if you compose your own theme entry:
+All components are registered globally — use them in markdown directly:
+
+```md
+<Murmuration :count="80" />
+<Layers :layers="[{ name: 'ledger', role: 'Durable work memory' }]" />
+<Specimen name="myco" />
+```
+
+Compose piecemeal if you prefer:
 
 ```ts
 import DefaultTheme from "vitepress/theme";
-import "vitepress-theme-9aia/style.css";
+import "vitepress-theme-9aia/style.css"; // or tokens.css / patterns.css / ...
+import { Murmuration } from "vitepress-theme-9aia/components";
 
-export default { extends: DefaultTheme };
+export default {
+  extends: DefaultTheme,
+  enhanceApp({ app }) {
+    app.component("Murmuration", Murmuration);
+  },
+};
+```
+
+Opt into the manifest look per page:
+
+```yaml
+---
+pageClass: doc-keys
+---
 ```
 
 ## Development

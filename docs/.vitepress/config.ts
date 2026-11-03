@@ -7,6 +7,7 @@ export default defineConfig({
     nav: [
       { text: "Guide", link: "/guide/" },
       { text: "Theming", link: "/guide/theming" },
+      { text: "Components", link: "/guide/components" },
     ],
     sidebar: [
       {
@@ -14,6 +15,7 @@ export default defineConfig({
         items: [
           { text: "Getting started", link: "/guide/" },
           { text: "Theming", link: "/guide/theming" },
+          { text: "Components", link: "/guide/components" },
         ],
       },
     ],

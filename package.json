@@ -23,7 +23,12 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
+    "./components": "./src/components/index.ts",
     "./style.css": "./src/style.css",
+    "./tokens.css": "./src/tokens.css",
+    "./base.css": "./src/base.css",
+    "./patterns.css": "./src/patterns.css",
+    "./vitepress.css": "./src/vitepress.css",
     "./package.json": "./package.json"
   },
   "scripts": {

@@ -1,0 +1,88 @@
+/* 9aia design language — pattern layer
+ * Composable motifs: organism dot, port, key labels, manifest sections.
+ * Opt in per page with `pageClass: doc-keys` or per element with classes. */
+
+/* dot — the organism mark (nav title, brand) */
+
+.dot::before {
+  content: "";
+  display: inline-block;
+  width: var(--dot-size);
+  height: var(--dot-size);
+  margin-right: 0.5rem;
+  border-radius: 999px;
+  background: var(--primary);
+  box-shadow: var(--glow);
+}
+
+/* port — hollow connector on a line */
+
+.port::before {
+  content: "";
+  display: inline-block;
+  width: var(--port-size);
+  height: var(--port-size);
+  margin-right: 0.6rem;
+  border-radius: 999px;
+  border: var(--port-stroke) solid var(--primary);
+  background: var(--vp-c-bg, var(--background));
+}
+
+/* key — machine label: `name:` */
+
+.key {
+  font-family: var(--vp-font-family-mono);
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.key::after {
+  content: ":";
+}
+
+/* doc-keys — whole document renders as a manifest:
+ * h2 sections become `key:` lines with a port on the hairline. */
+
+.doc-keys .vp-doc h2 {
+  position: relative;
+  margin: 3.5rem 0 1.25rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--vp-c-divider);
+  border-bottom: none;
+  font-family: var(--vp-font-family-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--vp-c-brand-1);
+}
+
+.doc-keys .vp-doc h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(0px - var(--port-size) / 2 - var(--port-stroke));
+  width: var(--port-size);
+  height: var(--port-size);
+  border-radius: 999px;
+  border: var(--port-stroke) solid var(--vp-c-brand-1);
+  background: var(--vp-c-bg);
+}
+
+.doc-keys .vp-doc h2::after {
+  content: ":";
+}
+
+.doc-keys .vp-doc h2:first-of-type {
+  margin-top: 0;
+}
+
+/* doc-end — the YAML document-end marker */
+
+.doc-end {
+  font-family: var(--vp-font-family-mono);
+  color: var(--vp-c-text-3);
+}
+
+.doc-end::before {
+  content: "...";
+}

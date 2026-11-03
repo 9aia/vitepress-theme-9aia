@@ -1,0 +1,262 @@
+/* 9aia design language — VitePress default-theme mappings */
+
+.VPNavBar {
+  border-bottom: 1px solid var(--border);
+}
+
+.VPNavBarTitle .title {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.VPNavBarTitle .title::before {
+  content: "";
+  width: var(--dot-size);
+  height: var(--dot-size);
+  margin-right: 0.5rem;
+  border-radius: 999px;
+  background: var(--primary);
+  box-shadow: var(--glow);
+}
+
+.VPNavBarSearch .DocSearch-Button,
+.VPNavBarSearchButton {
+  border-radius: 999px;
+}
+
+.VPHero .name {
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--vp-c-text-1);
+}
+
+.VPHero .name .clip {
+  color: var(--primary) !important;
+  background: none !important;
+  -webkit-text-fill-color: var(--primary) !important;
+}
+
+.VPHero .text,
+.VPHero .tagline {
+  color: var(--vp-c-text-2);
+  font-weight: 500;
+}
+
+.VPHero .image-src {
+  border-radius: var(--radius-lg);
+}
+
+.VPButton {
+  border-radius: 999px !important;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.VPFeatures .container .items {
+  display: grid;
+  gap: calc(var(--spacing) * 4);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 40rem) {
+  .VPFeatures .container .items {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  }
+}
+
+.VPFeatures .container .items .item {
+  width: auto;
+}
+
+.VPFeatures .VPFeature {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  padding: 1.25rem;
+  transition: all 0.15s ease;
+}
+
+.VPFeatures .VPFeature:hover,
+.VPFeatures .VPFeature:focus-within {
+  border-color: var(--primary);
+  background: var(--secondary);
+}
+
+.VPFeatures .VPFeature .title {
+  color: var(--foreground);
+  font-weight: 700;
+}
+
+.VPFeatures .VPFeature .details {
+  color: var(--vp-c-text-2);
+}
+
+.VPFeatures .VPFeature .link-text {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.VPFeatures .VPFeature .link-text:hover,
+.VPFeatures .VPFeature .link-text:focus-visible {
+  text-decoration-thickness: 2px;
+}
+
+.VPSidebarItem .item {
+  border-radius: var(--radius-sm);
+  transition: all 0.15s ease;
+}
+
+.VPSidebarItem .item:hover,
+.VPSidebarItem.is-active > .item,
+.VPSidebarItem.is-active .VPSidebarItem .item {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.VPSidebarItem .text {
+  font-weight: 500;
+}
+
+.VPDocFooter .prev-next .pager-link,
+.VPFooter {
+  border-radius: var(--radius);
+}
+
+.VPBadge,
+.vp-doc .VPBadge {
+  border-radius: 999px;
+}
+
+.VPLocalSearchBox .shell {
+  border-radius: var(--radius-lg);
+}
+
+/* VitePress default theme variables mapped to the palette */
+
+:root {
+  --vp-c-white: oklch(1 0 0);
+  --vp-c-black: oklch(0.1 0.02 264);
+  --vp-c-neutral: var(--vp-c-black);
+  --vp-c-neutral-inverse: var(--vp-c-white);
+
+  --vp-c-gray-1: oklch(0.55 0.03 264);
+  --vp-c-gray-2: oklch(0.45 0.04 264);
+  --vp-c-gray-3: oklch(0.38 0.04 264);
+  --vp-c-gray-soft: color-mix(in oklch, var(--foreground) 14%, transparent);
+
+  --vp-c-brand-1: var(--primary);
+  --vp-c-brand-2: var(--ring);
+  --vp-c-brand-3: var(--chart-5);
+  --vp-c-brand-soft: color-mix(in oklch, var(--primary) 14%, transparent);
+
+  --vp-c-tip-1: var(--primary);
+  --vp-c-tip-2: var(--primary);
+  --vp-c-tip-3: var(--chart-5);
+  --vp-c-tip-soft: color-mix(in oklch, var(--primary) 14%, transparent);
+
+  --vp-c-bg: var(--background);
+  --vp-c-bg-alt: var(--card);
+  --vp-c-bg-elv: var(--card);
+  --vp-c-bg-soft: var(--secondary);
+
+  --vp-c-text-1: var(--foreground);
+  --vp-c-text-2: color-mix(in oklch, var(--foreground) 72%, var(--background));
+  --vp-c-text-3: color-mix(in oklch, var(--foreground) 55%, var(--background));
+
+  --vp-c-border: var(--border);
+  --vp-c-divider: var(--border);
+  --vp-c-gutter: var(--border);
+
+  --vp-c-indigo-1: var(--primary);
+  --vp-c-indigo-2: var(--ring);
+  --vp-c-indigo-3: var(--chart-5);
+  --vp-c-indigo-soft: color-mix(in oklch, var(--primary) 14%, transparent);
+
+  --vp-c-purple-1: var(--chart-3);
+  --vp-c-purple-2: var(--chart-2);
+  --vp-c-purple-3: var(--chart-5);
+  --vp-c-purple-soft: color-mix(in oklch, var(--chart-3) 14%, transparent);
+
+  --vp-c-green-1: #18794e;
+  --vp-c-green-2: #299764;
+  --vp-c-green-3: #30a46c;
+  --vp-c-green-soft: color-mix(in srgb, #30a46c 14%, transparent);
+
+  --vp-c-yellow-1: #946800;
+  --vp-c-yellow-2: #ad7600;
+  --vp-c-yellow-3: #c28400;
+  --vp-c-yellow-soft: color-mix(in srgb, #c28400 14%, transparent);
+
+  --vp-c-red-1: var(--destructive);
+  --vp-c-red-2: color-mix(in srgb, var(--destructive), white 20%);
+  --vp-c-red-3: color-mix(in srgb, var(--destructive), black 20%);
+  --vp-c-red-soft: color-mix(in srgb, var(--destructive) 14%, transparent);
+
+  --vp-c-sponsor: #cb1d63;
+
+  --vp-sidebar-bg-color: var(--sidebar);
+
+  --vp-font-family-base:
+    var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  --vp-font-family-mono: var(--font-mono), "Cascadia Code", "Source Code Pro", Consolas, monospace;
+
+  --vp-button-brand-border: transparent;
+  --vp-button-brand-text: var(--primary-foreground);
+  --vp-button-brand-bg: var(--primary);
+  --vp-button-brand-hover-border: transparent;
+  --vp-button-brand-hover-text: var(--primary-foreground);
+  --vp-button-brand-hover-bg: var(--ring);
+  --vp-button-brand-active-border: transparent;
+  --vp-button-brand-active-text: var(--primary-foreground);
+  --vp-button-brand-active-bg: var(--chart-5);
+
+  --vp-button-alt-border: var(--border);
+  --vp-button-alt-text: var(--foreground);
+  --vp-button-alt-bg: var(--secondary);
+  --vp-button-alt-hover-border: var(--input);
+  --vp-button-alt-hover-text: var(--foreground);
+  --vp-button-alt-hover-bg: var(--accent);
+  --vp-button-alt-active-border: var(--input);
+  --vp-button-alt-active-text: var(--foreground);
+  --vp-button-alt-active-bg: var(--secondary);
+
+  --vp-button-sponsor-border: var(--border);
+  --vp-button-sponsor-text: var(--muted-foreground);
+  --vp-button-sponsor-bg: transparent;
+  --vp-button-sponsor-hover-border: var(--vp-c-sponsor);
+  --vp-button-sponsor-hover-text: var(--vp-c-sponsor);
+  --vp-button-sponsor-hover-bg: transparent;
+  --vp-button-sponsor-active-border: var(--vp-c-sponsor);
+  --vp-button-sponsor-active-text: var(--vp-c-sponsor);
+  --vp-button-sponsor-active-bg: transparent;
+
+  --vp-backdrop-bg-color: color-mix(in srgb, #000 45%, transparent);
+}
+
+.dark {
+  --vp-sidebar-bg-color: var(--sidebar);
+  --vp-c-neutral: var(--vp-c-white);
+  --vp-c-neutral-inverse: var(--vp-c-black);
+
+  --vp-c-gray-1: oklch(0.7 0.03 264);
+  --vp-c-gray-2: oklch(0.6 0.04 264);
+  --vp-c-gray-3: oklch(0.5 0.04 264);
+  --vp-c-gray-soft: color-mix(in oklch, var(--foreground) 14%, transparent);
+
+  --vp-c-green-1: #3dd68c;
+  --vp-c-green-2: #30a46c;
+  --vp-c-green-3: #298e5e;
+  --vp-c-green-soft: color-mix(in srgb, #3dd68c 14%, transparent);
+
+  --vp-c-yellow-1: #ffd60a;
+  --vp-c-yellow-2: #e8b400;
+  --vp-c-yellow-3: #c99a00;
+  --vp-c-yellow-soft: color-mix(in srgb, #ffd60a 14%, transparent);
+
+  --vp-backdrop-bg-color: color-mix(in srgb, #000 65%, transparent);
+}

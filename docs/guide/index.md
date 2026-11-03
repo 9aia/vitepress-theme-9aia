@@ -20,21 +20,21 @@ Create `.vitepress/theme/index.ts`:
 export { default } from "vitepress-theme-9aia";
 ```
 
-That's it — the theme extends the VitePress default theme, so everything
-in the default theme keeps working.
+That's it — the theme extends the VitePress default theme, registers the
+components globally, and applies the design language.
 
 ::: tip
 Prefer composing your own entry? Import only the stylesheet:
-`import "vitepress-theme-9aia/style.css"`.
+`import "vitepress-theme-9aia/style.css"`. Each layer is also its own
+export — `tokens.css`, `base.css`, `patterns.css`, `vitepress.css` — and
+components come from `vitepress-theme-9aia/components`.
 :::
 
-## What's inside
+## The language
 
-| Token       | Value                        |
-| ----------- | ---------------------------- |
-| `--primary` | `#0000ff`                    |
-| `--radius`  | `0.75rem`                    |
-| Buttons     | pill (`999px`)               |
-| Dark mode   | deeper navy, brighter accent |
+The design system is four layers — see [DESIGN.md](https://github.com/9aia/vitepress-theme-9aia/blob/main/DESIGN.md):
 
-Inline `code`, tables, and custom blocks all pick up the rounded style.
+- **tokens** — primitives → semantic roles → pattern tokens
+- **patterns** — `.dot`, `.port`, `.key`, `doc-keys`, `.doc-end`
+- **components** — Murmuration, WireLog, Layers, Specimen, SpecRows, Ledger
+- **composition** — pages assemble them; the manifest is the reference
