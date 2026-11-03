@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Specimen from "./Specimen.vue";
 import type { LayerItem } from "./types.ts";
 
 defineProps<{ layers: LayerItem[] }>();
@@ -10,7 +11,7 @@ defineProps<{ layers: LayerItem[] }>();
       <span class="stratum" aria-hidden="true" />
       <div class="cell">
         <div class="head">
-          <span class="name">{{ layer.name }}</span>
+          <span class="name"><Specimen :name="layer.name" />{{ layer.name }}</span>
           <span class="engines" v-if="layer.engines?.length">
             <code v-for="e in layer.engines" :key="e" class="engine">{{ e }}</code>
           </span>
@@ -81,6 +82,9 @@ defineProps<{ layers: LayerItem[] }>();
 }
 
 .cell .name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-family: var(--vp-font-family-mono);
   font-weight: 700;
   font-size: 0.9375rem;
