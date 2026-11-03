@@ -35,7 +35,9 @@
   --sidebar-ring: var(--ring);
   --font-sans: ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN", system-ui, sans-serif;
   --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Source Code Pro", Consolas, monospace;
-  --radius: 0.75rem;
+  --radius-sm: 0.5rem;
+  --radius: 0.875rem;
+  --radius-lg: 1.25rem;
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 
@@ -148,6 +150,15 @@ button:focus-visible,
   letter-spacing: -0.02em;
 }
 
+.VPNavBarTitle .title::before {
+  content: "";
+  width: 0.6em;
+  height: 0.6em;
+  margin-right: 0.5rem;
+  border-radius: 999px;
+  background: var(--primary);
+}
+
 .VPNavBarSearch .DocSearch-Button,
 .VPNavBarSearchButton {
   border-radius: 999px;
@@ -172,7 +183,7 @@ button:focus-visible,
 }
 
 .VPHero .image-src {
-  border-radius: calc(var(--radius) * 2);
+  border-radius: var(--radius-lg);
 }
 
 .VPButton {
@@ -189,7 +200,7 @@ button:focus-visible,
 
 @media (min-width: 40rem) {
   .VPFeatures .container .items {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
   }
 }
 
@@ -209,7 +220,6 @@ button:focus-visible,
 .VPFeatures .VPFeature:focus-within {
   border-color: var(--primary);
   background: var(--secondary);
-  transform: translateY(-2px);
 }
 
 .VPFeatures .VPFeature .title {
@@ -234,7 +244,7 @@ button:focus-visible,
 }
 
 .VPSidebarItem .item {
-  border-radius: calc(var(--radius) / 1.5);
+  border-radius: var(--radius-sm);
   transition: all 0.15s ease;
 }
 
@@ -252,6 +262,15 @@ button:focus-visible,
 .VPDocFooter .prev-next .pager-link,
 .VPFooter {
   border-radius: var(--radius);
+}
+
+.VPBadge,
+.vp-doc .VPBadge {
+  border-radius: 999px;
+}
+
+.VPLocalSearchBox .shell {
+  border-radius: var(--radius-lg);
 }
 
 .vp-doc h1,
@@ -320,7 +339,7 @@ div[class*="language-"] pre {
 }
 
 .vp-doc :not(pre) > code {
-  border-radius: calc(var(--radius) / 2);
+  border-radius: var(--radius-sm);
   background: var(--accent);
   color: var(--accent-foreground);
   padding: 0.15rem 0.35rem;
