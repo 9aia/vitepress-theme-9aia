@@ -45,7 +45,7 @@ the left edge.
 ]" />
 ```
 
-<Layers :layers='[{ name: "ledger", role: "Durable work memory — items, views, code cards, secrets", engines: ["myco", "kuda", "arca"] }, { name: "wal", role: "Ephemeral coordination — claims, ops, topics over VCS state", engines: ["sturn"] }, { name: "orchestrator", role: "Campaigns driving agent sessions across machines", engines: ["peregrin", "sepia"] }, { name: "queue", role: "Event-driven jobs, shipped as CI", engines: ["bupha", "mimus", "cicada"] }]' />
+<Layers :layers='[{ name: "ledger", role: "Durable work memory — items, views, code cards, secrets", engines: ["myco", "kuda", "cuora"] }, { name: "wal", role: "Ephemeral coordination — claims, ops, topics over VCS state", engines: ["sturn"] }, { name: "orchestrator", role: "Campaigns driving agent sessions across machines", engines: ["peregrin", "sepia"] }, { name: "queue", role: "Event-driven jobs, shipped as CI", engines: ["bupha", "mimus", "cicada"] }]' />
 
 ## Specimen
 
