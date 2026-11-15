@@ -1,0 +1,6 @@
+# vitepress-theme-9aia — theme package. `docs/` is a demo site, not
+# the org docs-worktree convention (no Diátaxis quadrants, no
+# docs:check gate), so the docs-site contract rules are exempt.
+
+[check]
+skip = ["docs-site", "docs-check-script"]
