@@ -51,9 +51,10 @@ without imports. All props are typed (`LayerItem`, `SpecRow`, `LedgerItem`).
 
 ## Layer 4 — composition
 
-Pages compose patterns and components; the homepage of `9aia.github.io` is
-the reference implementation (`pageClass: doc-keys`, murmuration masthead,
-`layers:`/`mission:`/`principles:`/`products:`/`stack:`/`contact:` manifest).
+Pages compose patterns and components; this repo's own `docs/` site is
+the reference implementation — `docs/guide/components.md` exercises every
+component (`pageClass: doc-keys`, Murmuration, WireLog, Layers, Specimen,
+SpecRows, Ledger).
 
 ## Principles
 
