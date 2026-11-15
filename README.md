@@ -61,6 +61,7 @@ pageClass: doc-keys
 Built with [Vite+](https://viteplus.dev):
 
 - `pnpm run docs:dev` — preview the demo site in `docs/`
+- `pnpm run docs:build` — build the demo site
 - `pnpm test` — unit tests
 - `pnpm run check` — lint, format, typecheck
 - `pnpm run build` — `vp pack`
