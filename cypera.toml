@@ -3,4 +3,5 @@
 # docs:check gate), so the docs-site contract rules are exempt.
 
 [check]
+profile = "content"
 skip = ["docs-site", "docs-check-script"]
