@@ -5,6 +5,7 @@ export default defineConfig({
   description: "Rounded, blue VitePress theme.",
   themeConfig: {
     nav: [
+      { text: "9aia", link: "https://9aia.com", target: "_blank" },
       { text: "Guide", link: "/guide/" },
       { text: "Theming", link: "/guide/theming" },
       { text: "Components", link: "/guide/components" },
