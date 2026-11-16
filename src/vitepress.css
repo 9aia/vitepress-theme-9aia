@@ -142,7 +142,7 @@
 /* VitePress default theme variables mapped to the palette */
 
 :root {
-  --vp-c-white: oklch(1 0 0);
+  --vp-c-white: oklch(0.99 0.005 262);
   --vp-c-black: oklch(0.2 0.03 264);
   --vp-c-neutral: var(--vp-c-black);
   --vp-c-neutral-inverse: var(--vp-c-white);
@@ -239,7 +239,7 @@
   --vp-button-sponsor-active-text: var(--vp-c-sponsor);
   --vp-button-sponsor-active-bg: transparent;
 
-  --vp-backdrop-bg-color: color-mix(in srgb, #000 45%, transparent);
+  --vp-backdrop-bg-color: color-mix(in oklch, var(--navy) 55%, transparent);
 }
 
 .dark {
@@ -262,5 +262,5 @@
   --vp-c-yellow-3: #c49a2e;
   --vp-c-yellow-soft: color-mix(in srgb, #e8c96a 16%, transparent);
 
-  --vp-backdrop-bg-color: color-mix(in srgb, #000 65%, transparent);
+  --vp-backdrop-bg-color: color-mix(in oklch, var(--navy) 70%, transparent);
 }
