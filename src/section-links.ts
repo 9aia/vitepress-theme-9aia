@@ -2,8 +2,15 @@
 // (sibling docs sites like /<repo>/, or the org homepage) must be real
 // navigations. VitePress's SPA router intercepts every same-origin <a>
 // click and would 404 on them, so we stop the event during the capture
-// phase — before the router's bubble-phase window listener — and let the
-// browser perform a server-side navigation instead.
+// phase and let the browser perform a server-side navigation instead.
+//
+// Ordering matters (VitePress ≥1.6): the router binds its click
+// interceptor on `window` with `{ capture: true }` inside `createApp()`.
+// The theme module evaluates before that, so the guard must be
+// installed at module scope — a `setup`/`onMounted` install would run
+// after the router listener already exists. And because both listeners
+// sit on the same node in the same phase, `stopPropagation()` can't
+// preempt it — `stopImmediatePropagation()` is required.
 //
 // Two ways a link counts as "outside":
 //   - the site has a non-root `base` and the path doesn't start with it
@@ -37,7 +44,13 @@ function isOutsideSite(pathname: string, base: string, sections: string[]) {
   );
 }
 
+const INSTALLED_KEY = "__vitepressTheme9aiaSectionLinks";
+
 export function installSectionLinkGuard({ base, sections }: GuardOptions) {
+  // HMR can re-evaluate the theme module — don't stack listeners
+  const w = window as unknown as Record<string, unknown>;
+  if (w[INSTALLED_KEY]) return () => {};
+  w[INSTALLED_KEY] = true;
   const onClick = (e: MouseEvent) => {
     if (
       e.defaultPrevented ||
@@ -72,8 +85,11 @@ export function installSectionLinkGuard({ base, sections }: GuardOptions) {
     }
     if (url.origin !== location.origin || !isHtmlPath(url.pathname)) return;
     if (!isOutsideSite(url.pathname, base(), sections())) return;
-    e.stopPropagation();
+    e.stopImmediatePropagation();
   };
   window.addEventListener("click", onClick, true);
-  return () => window.removeEventListener("click", onClick, true);
+  return () => {
+    window.removeEventListener("click", onClick, true);
+    delete w[INSTALLED_KEY];
+  };
 }
