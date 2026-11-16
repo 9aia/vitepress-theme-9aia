@@ -112,8 +112,7 @@ export function useMetablobs(
     // callers like BlobCluster pass an explicit count.
     const rect0 = el.getBoundingClientRect();
     const count =
-      options.count ??
-      Math.min(64, Math.max(20, Math.round((rect0.width * rect0.height) / 20000)));
+      options.count ?? Math.min(64, Math.max(20, Math.round((rect0.width * rect0.height) / 20000)));
     const palette = resolveMetablobColors(options.colors);
     const maxDpr = options.maxDpr ?? 1.5;
     const resolutionScale = options.resolutionScale ?? 0.7;
