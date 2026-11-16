@@ -243,6 +243,14 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       mouse.x = p.x;
       mouse.y = p.y;
     };
+    // pointer leaving the window releases the attraction — otherwise
+    // blobs keep drifting toward the last cursor position forever
+    const onPointerOut = (e: PointerEvent) => {
+      if (!e.relatedTarget) {
+        mouse.x = -9999;
+        mouse.y = -9999;
+      }
+    };
     // click/tap fires a brief stronger, wider pull — `clickUntil`
     // shares the rAF timestamp clock (DOMHighResTimeStamp)
     let clickUntil = 0;
@@ -256,13 +264,16 @@ void main() { gl_Position = vec4(p, 0., 1.); }
     if (interactive) {
       addEventListener("pointermove", onPointerMove);
       addEventListener("pointerdown", onPointerDown);
+      addEventListener("pointerout", onPointerOut);
     }
 
     let last = 0;
 
     function frame(t = 0) {
-      // delta-time — velocities are per second, refresh-rate independent
-      const dt = Math.min((t - last) / 1000, 0.1) || 0;
+      // delta-time — velocities are per second, refresh-rate independent.
+      // Clamp tighter than a dropped frame so a hiccup reads as a
+      // slow-motion beat, not a teleport.
+      const dt = Math.min((t - last) / 1000, 0.06) || 0;
       last = t;
       const fieldScale = Math.max(0.45, Math.min(Math.min(w, h * 1.4) / 900, 1.15));
 
@@ -326,17 +337,17 @@ void main() { gl_Position = vec4(p, 0., 1.); }
           // trapped/enclosed instead of wrap-around drifters
           if (p.x < mx) {
             p.x = mx;
-            p.vx = Math.abs(p.vx) * 0.9;
+            p.vx = Math.abs(p.vx) * 0.6;
           } else if (p.x > 1 - mx) {
             p.x = 1 - mx;
-            p.vx = -Math.abs(p.vx) * 0.9;
+            p.vx = -Math.abs(p.vx) * 0.6;
           }
           if (p.y < my) {
             p.y = my;
-            p.vy = Math.abs(p.vy) * 0.9;
+            p.vy = Math.abs(p.vy) * 0.6;
           } else if (p.y > 1 - my) {
             p.y = 1 - my;
-            p.vy = -Math.abs(p.vy) * 0.9;
+            p.vy = -Math.abs(p.vy) * 0.6;
           }
         } else {
           if (p.x < -0.1) p.x = 1.1;
@@ -369,6 +380,9 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       const on = intersecting && visible;
       if (on === running) return;
       running = on;
+      // reset the dt baseline on resume — otherwise the first frame
+      // after a pause integrates the whole gap as one jump
+      last = 0;
       if (on) raf = requestAnimationFrame(frame);
       else cancelAnimationFrame(raf);
     };
@@ -397,6 +411,7 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       if (interactive) {
         removeEventListener("pointermove", onPointerMove);
         removeEventListener("pointerdown", onPointerDown);
+        removeEventListener("pointerout", onPointerOut);
       }
     };
   });
