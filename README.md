@@ -59,7 +59,14 @@ pageClass: doc-keys
 ## Options
 
 - **Hero metaballs** — off by default. Opt in per home-layout page with
-  `hero.blobs: true` in frontmatter (only 9aia.com uses it).
+  `hero.blobs: true` in frontmatter (only 9aia.com uses it). The hero
+  field renders in a single pastel; `<MetaBlobs colors="...">` accepts
+  a preset name (`periwinkle`/`lavender`/`powder`/`cyan`/`mint`/`blush`/
+  `indigo`), an rgb triple, or a list for custom mixes.
+- **`<BlobCluster>`** — a "species" card: a small single-hue metaball
+  field in a rounded container. `color` (same preset names or rgb
+  triple), `count`, `radius` (`a`/`b`/`c`), optional caption via the
+  default slot. Cheap enough to repeat down a page.
 - **`themeConfig.externalSections`** — on a root-base site, same-origin
   links whose first path segment is listed (e.g. sibling docs sites at
   `/<name>/`) are left to the browser as full navigations instead of

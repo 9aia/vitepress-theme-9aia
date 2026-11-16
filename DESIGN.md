@@ -53,15 +53,16 @@ without imports (`MetaBlobs` is the exception: the layout mounts it
 itself on `hero.blobs: true` pages). All props are typed (`LayerItem`,
 `SpecRow`, `LedgerItem`).
 
-| Component       | Motif                                                                          | Props                                  |
-| --------------- | ------------------------------------------------------------------------------ | -------------------------------------- |
-| `<Murmuration>` | agents murmurate, not merge — live boids swarm canvas                          | `count?: number`                       |
-| `<WireLog>`     | the wire — streaming op transcript card                                        | `lines: string[]`, `label?`, `stream?` |
-| `<Layers>`      | strata — contiguous layer diagram                                              | `layers: LayerItem[]`                  |
-| `<Specimen>`    | deterministic organic blob per name                                            | `name: string`                         |
-| `<SpecRows>`    | spec-sheet key/value rows                                                      | `rows: SpecRow[]`                      |
-| `<Ledger>`      | record-table registry — specimen, status pill, keywords, links, status filters | `items: LedgerItem[]`, `filterable?`   |
-| `<MetaBlobs>`   | hero metaball field — 26 drifting blobs, mouse repulsion, reduced-motion safe  | mounted via `hero.blobs: true`         |
+| Component       | Motif                                                                          | Props                                                       |
+| --------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------- |
+| `<Murmuration>` | agents murmurate, not merge — live boids swarm canvas                          | `count?: number`                                            |
+| `<WireLog>`     | the wire — streaming op transcript card                                        | `lines: string[]`, `label?`, `stream?`                      |
+| `<Layers>`      | strata — contiguous layer diagram                                              | `layers: LayerItem[]`                                       |
+| `<Specimen>`    | deterministic organic blob per name                                            | `name: string`                                              |
+| `<SpecRows>`    | spec-sheet key/value rows                                                      | `rows: SpecRow[]`                                           |
+| `<Ledger>`      | record-table registry — specimen, status pill, keywords, links, status filters | `items: LedgerItem[]`, `filterable?`                        |
+| `<MetaBlobs>`   | hero metaball field — 26 drifting blobs, mouse repulsion, reduced-motion safe  | `colors?: MetablobPalette` (mounted via `hero.blobs: true`) |
+| `<BlobCluster>` | species cluster — small single-hue metaball field in a rounded card            | `color?`, `count?`, `radius?`, default slot caption         |
 
 ## Layer 4 — composition
 

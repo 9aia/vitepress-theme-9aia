@@ -1,7 +1,15 @@
 import { defineComponent, h, onMounted, onUnmounted, ref } from "vue";
 import DefaultTheme from "vitepress/theme";
 import { useData, type Theme } from "vitepress";
-import { Murmuration, WireLog, Layers, Specimen, SpecRows, Ledger } from "./components/index.ts";
+import {
+  Murmuration,
+  WireLog,
+  Layers,
+  Specimen,
+  SpecRows,
+  Ledger,
+  BlobCluster,
+} from "./components/index.ts";
 import MetaBlobs from "./components/MetaBlobs.vue";
 import { installSectionLinkGuard } from "./section-links.ts";
 import "./style.css";
@@ -31,7 +39,7 @@ const Layout = defineComponent({
           mounted.value &&
           frontmatter.value.layout === "home" &&
           (frontmatter.value.hero as { blobs?: boolean } | undefined)?.blobs === true
-            ? h(MetaBlobs)
+            ? h(MetaBlobs, { colors: "periwinkle" })
             : null,
       });
   },
@@ -47,6 +55,7 @@ const theme = {
     app.component("Specimen", Specimen);
     app.component("SpecRows", SpecRows);
     app.component("Ledger", Ledger);
+    app.component("BlobCluster", BlobCluster);
   },
 } satisfies Theme;
 

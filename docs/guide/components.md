@@ -82,6 +82,38 @@ status filters.
 
 <Ledger :items='[{ name: "myco", description: "Records engine for agent work — views + mutations", status: "recent", keywords: ["rust", "agents", "cli"], github: "https://github.com/9aia/myco" }, { name: "sturn", description: "Ephemeral coordination — claims/ops/topics over VCS state", status: "wip", keywords: ["rust", "git", "daemon"], github: "https://github.com/9aia/sturn" }, { name: "peregrin", description: "Campaigns driving agent sessions across machines", status: "recent", keywords: ["orchestration", "mcp"], github: "https://github.com/9aia/peregrin" }]' />
 
+## BlobCluster
+
+A "species" cluster — a small single-hue metaball field inside a
+rounded card. `color` takes a pastel preset name (`periwinkle`,
+`lavender`, `powder`, `cyan`, `mint`, `blush`, `indigo`) or an
+`[r, g, b]` 0–1 triple; `count` tunes blob density and `radius`
+(`a`/`b`/`c`) picks one of the organic corner shapes. The default slot
+renders an optional mono caption. Cheap enough to repeat — the field
+pauses offscreen and hidden tabs, respects reduced-motion, and renders
+at a reduced resolution.
+
+```md
+<BlobCluster color="mint" radius="b">myco</BlobCluster>
+```
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 1rem;">
+  <BlobCluster color="mint" radius="a">myco</BlobCluster>
+  <BlobCluster color="lavender" radius="b">sturn</BlobCluster>
+  <BlobCluster color="cyan" radius="c">peregrin</BlobCluster>
+  <BlobCluster color="blush" radius="a">cuora</BlobCluster>
+</div>
+
+## MetaBlobs
+
+The hero metaball field — mounted by the layout itself on
+`layout: home` pages with `hero.blobs: true` in frontmatter, not
+dropped into markdown (export it from `vitepress-theme-9aia/components`
+for piecemeal use). `colors` tints the field: a pastel preset name, an
+rgb triple, or a list mixing both — a single entry renders the whole
+field in one hue, which is what the hero uses (`periwinkle`) so the
+blobs read as one organism.
+
 ## Patterns
 
 ```md
