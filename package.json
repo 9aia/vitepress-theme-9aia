@@ -50,7 +50,8 @@
     "vue": "^3.5.0"
   },
   "peerDependencies": {
-    "vitepress": ">=1.0.0"
+    "vitepress": ">=1.0.0",
+    "vue": "^3.4.0"
   },
   "devEngines": {
     "packageManager": {

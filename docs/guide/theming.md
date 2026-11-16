@@ -44,3 +44,13 @@ export default Theme;
 
 `.dark` redefines every semantic token — a navy field with a brighter,
 bioluminescent accent, since pure `#00f` is too dark on dark surfaces.
+
+## Site options
+
+- `hero.blobs: true` (frontmatter, home layout only) — mounts the
+  metaball canvas behind the hero. Off by default; 9aia.com opts in.
+- `themeConfig.externalSections: string[]` — root-base sites only: links
+  into these first path segments navigate server-side (full page load)
+  instead of VitePress SPA routing. Sub-path bases (`/<name>/`) treat
+  everything outside their base as external automatically.
+- `themeConfig.search.provider: "local"` — built-in local search.

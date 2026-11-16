@@ -3,6 +3,7 @@ layout: home
 
 hero:
   name: "9aia"
+  blobs: true
   text: "Rounded, blue docs"
   tagline: A minimal VitePress theme — oklch blue palette, pill buttons, soft corners.
   actions:

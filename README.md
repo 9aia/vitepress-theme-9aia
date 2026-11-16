@@ -56,6 +56,19 @@ pageClass: doc-keys
 ---
 ```
 
+## Options
+
+- **Hero metaballs** — off by default. Opt in per home-layout page with
+  `hero.blobs: true` in frontmatter (only 9aia.com uses it).
+- **`themeConfig.externalSections`** — on a root-base site, same-origin
+  links whose first path segment is listed (e.g. sibling docs sites at
+  `/<name>/`) are left to the browser as full navigations instead of
+  VitePress SPA routing, which would 404 on them. Sites with a non-root
+  `base` (`/<name>/`) get this automatically for every path outside
+  their base.
+- **Search** — enable the built-in local provider per site:
+  `themeConfig.search.provider: "local"`.
+
 ## Development
 
 Built with [Vite+](https://viteplus.dev):
