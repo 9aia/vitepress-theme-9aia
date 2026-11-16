@@ -50,7 +50,9 @@ const Layout = defineComponent({
           mounted.value &&
           frontmatter.value.layout === "home" &&
           (frontmatter.value.hero as { blobs?: boolean } | undefined)?.blobs === true
-            ? h(MetaBlobs, { colors: "blush" })
+            ? h(MetaBlobs, {
+                colors: ["periwinkle", "lavender", "powder", "cyan", "mint", "blush", "indigo"],
+              })
             : null,
       });
   },

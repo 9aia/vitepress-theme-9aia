@@ -8,7 +8,7 @@ import { onMounted, onUnmounted, type Ref } from "vue";
 // (< `mobileWidth` or `pointer: coarse`).
 //
 // Ported from gaia-docus `app/components/MetaBlobs.vue` — 26 drifting
-// blobs, pointer attraction + click impulse, wobble, reduced-motion +
+// blobs, pointer repulsion + click pulse, wobble, reduced-motion +
 // offscreen/hidden gating — with the gaia-docus pastel palette.
 
 // Pastel presets — the gaia-docus MetaBlobs family, matching the
@@ -83,7 +83,7 @@ export interface MetablobsOptions {
   /** backing-store scale — default 0.7 (soft low-fi baseline); compact
       viewports add ×0.75 */
   resolutionScale?: number;
-  /** pointer attraction — default true; false skips the pointermove/
+  /** pointer repulsion — default true; false skips the pointermove/
       pointerdown/pointerout listeners */
   interactive?: boolean;
   /** viewport width below which the compact profile kicks in — default 768 */
@@ -218,6 +218,7 @@ void main() { gl_Position = vec4(p, 0., 1.); }
         // per-blob wobble frequency — a shared frequency makes the whole
         // field slide in synchronized waves that reads as convergence
         wf: 0.6 + Math.random() * 0.8,
+        ci: i % palette.length,
         c: palette[i % palette.length],
       };
     });
@@ -259,8 +260,8 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       mouse.x = p.x;
       mouse.y = p.y;
     };
-    // pointer leaving the window releases the attraction — otherwise
-    // blobs keep drifting toward the last cursor position forever
+    // pointer leaving the window releases the repulsion — otherwise
+    // blobs keep drifting away from the last cursor position forever
     const onPointerOut = (e: PointerEvent) => {
       if (!e.relatedTarget) {
         mouse.x = -9999;
@@ -295,8 +296,8 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       // container — hero or card — gets the same proportional blob size
       const fieldScale = Math.max(0.15, Math.min(Math.min(w, h) / 1000, 1.15));
 
-      // pointer attraction — blobs drift gently toward the cursor; a
-      // click/tap widens the radius and ~quadruples the pull briefly
+      // pointer repulsion — blobs drift gently away from the cursor; a
+      // click/tap widens the radius and ~quadruples the push briefly
       const clicking = t < clickUntil;
       const pointerRange = clicking ? 380 : 240;
       const pointerAccel = clicking ? 48 : 12; // px/s² at zero distance
@@ -306,12 +307,17 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       // clamp so a tiny container can't invert the margins
       const mx = w > 0 ? Math.min(padPx / w, 0.45) : 0;
       const my = h > 0 ? Math.min(padPx / h, 0.45) : 0;
-      // contained fields only: gentle short-range separation keeps blobs
-      // from merging into one static clump — they stay distinct drifters
-      // like the hero field, just bounded. Equal-and-opposite impulses,
-      // O(n²) but n ≤ ~14 in containers.
-      if (contain) {
-        const SEP_ACCEL = 40; // px/s² at contact, fading to 0 at minDist
+      // contained fields only: short-range separation keeps blobs from
+      // merging into one static clump — metaballs fuse visually well
+      // before their radii touch, so minDist stays above r1+r2. They
+      // remain distinct drifters, just bounded. Equal-and-opposite
+      // impulses, O(n²) but n ≤ ~14 in containers.
+      // multi-species fields (hero): same-species blobs drift together
+      // and can merge; different species can't merge — they repel and
+      // compete for space. Equal-and-opposite impulses, O(n²).
+      if (!contain && palette.length > 1) {
+        const SAME_PULL = 12; // px/s² — own kind drifts together
+        const OTHER_PUSH = 35; // px/s² — other species can't merge
         for (let i = 0; i < count; i++) {
           const a = parts[i];
           const ax = a.x * w;
@@ -322,7 +328,32 @@ void main() { gl_Position = vec4(p, 0., 1.); }
             const dx = b.x * w - ax;
             const dy = (1 - b.y) * h - ay;
             const d = Math.hypot(dx, dy);
-            const minD = (ar + b.r * fieldScale) * 0.85;
+            if (d < 1) continue;
+            const touch = ar + b.r * fieldScale;
+            const same = a.ci === b.ci;
+            const range = same ? touch * 1.6 : touch * 2 + 8;
+            if (d >= range) continue;
+            // same kind pulls together; other species push apart
+            const s = ((1 - d / range) * (same ? SAME_PULL : -OTHER_PUSH) * dt) / d;
+            a.vx += (dx * s) / w;
+            a.vy += (dy * s) / h;
+            b.vx -= (dx * s) / w;
+            b.vy -= (dy * s) / h;
+          }
+        }
+      } else if (contain) {
+        const SEP_ACCEL = 120; // px/s² at contact, fading to 0 at minDist
+        for (let i = 0; i < count; i++) {
+          const a = parts[i];
+          const ax = a.x * w;
+          const ay = (1 - a.y) * h;
+          const ar = a.r * fieldScale;
+          for (let j = i + 1; j < count; j++) {
+            const b = parts[j];
+            const dx = b.x * w - ax;
+            const dy = (1 - b.y) * h - ay;
+            const d = Math.hypot(dx, dy);
+            const minD = (ar + b.r * fieldScale) * 1.2;
             if (d < 1 || d >= minD) continue;
             const s = ((1 - d / minD) * SEP_ACCEL * dt) / d;
             a.vx += (dx * s) / w;
@@ -336,8 +367,8 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       for (const p of parts) {
         const px = p.x * w;
         const py = (1 - p.y) * h;
-        const dx = mouse.x - px;
-        const dy = mouse.y - py;
+        const dx = px - mouse.x;
+        const dy = py - mouse.y;
         const d = Math.hypot(dx, dy) || 1;
         const f = Math.max(0, 1 - d / pointerRange);
         p.vx += ((dx / d) * f * f * pointerAccel * dt) / w;
