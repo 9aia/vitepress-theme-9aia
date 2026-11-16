@@ -16,6 +16,15 @@
   border-radius: 999px;
 }
 
+/* Search bar fills the nav's free space but caps at a readable pill
+   width so it doesn't stretch across the whole navbar on wide screens.
+   Mobile keeps the compact icon button. */
+@media (min-width: 768px) {
+  .VPNavBarSearch {
+    max-width: 480px;
+  }
+}
+
 .VPHero {
   position: relative;
 }
