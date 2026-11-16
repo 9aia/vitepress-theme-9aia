@@ -12,13 +12,7 @@
 }
 
 .VPNavBarTitle .title::before {
-  content: "";
-  width: var(--dot-size);
-  height: var(--dot-size);
-  margin-right: 0.5rem;
-  border-radius: 999px;
-  background: var(--primary);
-  box-shadow: var(--glow);
+  display: none;
 }
 
 .VPNavBarSearch .DocSearch-Button,

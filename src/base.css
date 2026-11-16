@@ -17,8 +17,7 @@ body {
 }
 
 .dark body {
-  background-image: var(--field-texture, none);
-  background-size: var(--field-texture-size, 28px 28px);
+  background-color: var(--background);
 }
 
 code,
