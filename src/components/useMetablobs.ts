@@ -73,7 +73,8 @@ export function resolveMetablobColors(input?: MetablobPalette): [number, number,
 }
 
 export interface MetablobsOptions {
-  /** blob count — default 26 (hero); small containers pass ~10-14 */
+  /** blob count — default scales with field area (~1 per 20k px²,
+      clamped 20–64); small containers pass an explicit count */
   count?: number;
   /** palette — preset name(s), rgb triple(s); default is the 6-hue mix */
   colors?: MetablobPalette;
@@ -106,7 +107,13 @@ export function useMetablobs(
     // `!` satisfies the closure narrowing; the runtime check stays.
     const el = canvas.value!;
     if (!el) return;
-    const count = options.count ?? 26;
+    // Default count scales with field area (~1 blob per 20k px², floor
+    // 20 / cap 64) so big hero fields on laptop+ screens stay dense;
+    // callers like BlobCluster pass an explicit count.
+    const rect0 = el.getBoundingClientRect();
+    const count =
+      options.count ??
+      Math.min(64, Math.max(20, Math.round((rect0.width * rect0.height) / 20000)));
     const palette = resolveMetablobColors(options.colors);
     const maxDpr = options.maxDpr ?? 1.5;
     const resolutionScale = options.resolutionScale ?? 0.7;
