@@ -287,7 +287,9 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       // contain margin in px — max blob radius (× iso-field overshoot
       // ~1.15) + wobble/headroom, all scaled by fieldScale so small
       // containers don't over-margin; normalized per axis below
-      const padPx = contain ? Math.max(...parts.map((q) => q.r)) * fieldScale * 1.15 + 14 * fieldScale + 4 : 0;
+      const padPx = contain
+        ? Math.max(...parts.map((q) => q.r)) * fieldScale * 1.15 + 14 * fieldScale + 4
+        : 0;
       // clamp so a tiny container can't invert the margins
       const mx = w > 0 ? Math.min(padPx / w, 0.45) : 0;
       const my = h > 0 ? Math.min(padPx / h, 0.45) : 0;
