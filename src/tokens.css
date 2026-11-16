@@ -10,6 +10,14 @@
   --ink: oklch(0.38 0.038 263);
   --navy: oklch(0.27 0.06 265);
 
+  /* pastel palette — gaia-docus MetaBlobs family */
+  --pastel-periwinkle: #9eadf5;
+  --pastel-lavender: #bd9ef2;
+  --pastel-powder: #94ccf2;
+  --pastel-mint: #ade0d1;
+  --pastel-blush: #edadd1;
+  --pastel-indigo: #8594f0;
+
   /* semantic */
   --background: var(--paper);
   --foreground: var(--ink);
@@ -30,11 +38,12 @@
   --border: transparent;
   --input: oklch(0.8 0.038 264);
   --ring: oklch(0.64 0.14 260);
-  --chart-1: oklch(0.72 0.13 230);
-  --chart-2: oklch(0.7 0.15 290);
-  --chart-3: oklch(0.75 0.14 160);
-  --chart-4: oklch(0.78 0.15 350);
-  --chart-5: var(--blue);
+  /* chart hues — palette hues deepened for contrast on light pastel bg */
+  --chart-1: oklch(0.66 0.1 235); /* powder blue, deep */
+  --chart-2: oklch(0.62 0.13 295); /* lavender */
+  --chart-3: oklch(0.66 0.09 165); /* mint, deep */
+  --chart-4: oklch(0.66 0.13 355); /* blush, deep */
+  --chart-5: var(--blue); /* indigo pastel */
   --sidebar: oklch(0.92 0.035 263);
   --sidebar-foreground: oklch(0.4 0.06 264);
   --sidebar-primary: var(--primary);

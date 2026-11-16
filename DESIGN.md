@@ -23,6 +23,15 @@ Primitives → semantic roles → pattern tokens.
 - **Pattern tokens**: `--dot-size`, `--port-size`, `--port-stroke`,
   `--wire-width`, `--stratum-width`, `--glow`.
 
+### Palette
+
+The pastel palette — six named primitives (`--pastel-*`), the
+gaia-docus MetaBlobs family: periwinkle `#9eadf5`, lavender `#bd9ef2`,
+powder blue `#94ccf2`, mint `#ade0d1`, blush `#edadd1`, indigo
+`#8594f0`. Semantic tokens and `--chart-1..5` derive from these hues —
+charts use deepened variants for contrast on the light pastel
+backgrounds.
+
 ## Layer 2 — patterns (`patterns.css`)
 
 Composable motif classes:
