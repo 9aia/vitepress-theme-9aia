@@ -234,5 +234,23 @@
 
 .dark {
   --vp-sidebar-bg-color: var(--sidebar);
-  --vp-backdrop-bg-color: color-mix(in oklch, var(--ink) 50%, transparent);
+  --vp-c-neutral: var(--vp-c-white);
+  --vp-c-neutral-inverse: var(--vp-c-black);
+
+  --vp-c-gray-1: oklch(0.72 0.03 262);
+  --vp-c-gray-2: oklch(0.62 0.04 262);
+  --vp-c-gray-3: oklch(0.52 0.04 262);
+  --vp-c-gray-soft: color-mix(in oklch, var(--foreground) 14%, transparent);
+
+  --vp-c-green-1: #8adbb0;
+  --vp-c-green-2: #63c493;
+  --vp-c-green-3: #4aa878;
+  --vp-c-green-soft: color-mix(in srgb, #8adbb0 16%, transparent);
+
+  --vp-c-yellow-1: #e8c96a;
+  --vp-c-yellow-2: #d9b23f;
+  --vp-c-yellow-3: #c49a2e;
+  --vp-c-yellow-soft: color-mix(in srgb, #e8c96a 16%, transparent);
+
+  --vp-backdrop-bg-color: color-mix(in oklch, var(--navy) 70%, transparent);
 }
