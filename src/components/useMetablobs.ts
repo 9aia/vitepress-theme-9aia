@@ -243,14 +243,14 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       mouse.x = p.x;
       mouse.y = p.y;
     };
-    // click/tap fires a stronger, wider pull for ~550ms — `clickUntil`
+    // click/tap fires a brief stronger, wider pull — `clickUntil`
     // shares the rAF timestamp clock (DOMHighResTimeStamp)
     let clickUntil = 0;
     const onPointerDown = (e: PointerEvent) => {
       const p = pointerPos(e);
       mouse.x = p.x;
       mouse.y = p.y;
-      clickUntil = performance.now() + 550;
+      clickUntil = performance.now() + 400;
     };
     addEventListener("resize", onResize);
     if (interactive) {
@@ -270,8 +270,8 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       // The impulse is symmetric (equal and opposite on both blobs), so
       // pairs approach without collapsing; range + small accel keep it
       // subtle. O(n²) but n ≤ ~26.
-      const MATE_RANGE = 240;
-      const MATE_ACCEL = 14; // px/s² at zero distance, fading to 0 at range
+      const MATE_RANGE = 200;
+      const MATE_ACCEL = 5; // px/s² at zero distance, fading to 0 at range
       for (let i = 0; i < count; i++) {
         const a = parts[i];
         const ax = a.x * w;
@@ -290,11 +290,11 @@ void main() { gl_Position = vec4(p, 0., 1.); }
         }
       }
 
-      // pointer attraction — blobs pull gently toward the cursor; a
-      // click/tap widens the radius and triples the pull for ~550ms
+      // pointer attraction — blobs drift gently toward the cursor; a
+      // click/tap widens the radius and ~quadruples the pull briefly
       const clicking = t < clickUntil;
-      const pointerRange = clicking ? 420 : 280;
-      const pointerAccel = clicking ? 90 : 26; // px/s² at zero distance
+      const pointerRange = clicking ? 380 : 240;
+      const pointerAccel = clicking ? 48 : 12; // px/s² at zero distance
       // contain margin in px — max blob radius (× iso-field overshoot
       // ~1.15) + wobble/headroom; normalized per axis below
       const padPx = contain ? Math.max(...parts.map((q) => q.r)) * fieldScale * 1.15 + 18 : 0;
