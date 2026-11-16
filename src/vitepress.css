@@ -1,9 +1,5 @@
 /* 9aia design language — VitePress default-theme mappings */
 
-.VPNavBar {
-  border-bottom: 1px solid var(--border);
-}
-
 .VPNavBarTitle .title {
   display: inline-flex;
   align-items: center;
@@ -69,17 +65,17 @@
 }
 
 .VPFeatures .VPFeature {
-  border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--card);
   padding: 1.25rem;
+  box-shadow: 0 1px 3px rgb(20 20 60 / 0.08);
   transition: all 0.15s ease;
 }
 
 .VPFeatures .VPFeature:hover,
 .VPFeatures .VPFeature:focus-within {
-  border-color: var(--primary);
   background: var(--secondary);
+  box-shadow: 0 4px 14px rgb(20 20 60 / 0.12);
 }
 
 .VPFeatures .VPFeature .title {
@@ -233,28 +229,10 @@
   --vp-button-sponsor-active-text: var(--vp-c-sponsor);
   --vp-button-sponsor-active-bg: transparent;
 
-  --vp-backdrop-bg-color: color-mix(in oklch, var(--navy) 55%, transparent);
+  --vp-backdrop-bg-color: color-mix(in oklch, var(--ink) 45%, transparent);
 }
 
 .dark {
   --vp-sidebar-bg-color: var(--sidebar);
-  --vp-c-neutral: var(--vp-c-white);
-  --vp-c-neutral-inverse: var(--vp-c-black);
-
-  --vp-c-gray-1: oklch(0.7 0.03 264);
-  --vp-c-gray-2: oklch(0.6 0.04 264);
-  --vp-c-gray-3: oklch(0.5 0.04 264);
-  --vp-c-gray-soft: color-mix(in oklch, var(--foreground) 14%, transparent);
-
-  --vp-c-green-1: #8adbb0;
-  --vp-c-green-2: #63c493;
-  --vp-c-green-3: #4aa878;
-  --vp-c-green-soft: color-mix(in srgb, #8adbb0 16%, transparent);
-
-  --vp-c-yellow-1: #e8c96a;
-  --vp-c-yellow-2: #d9b23f;
-  --vp-c-yellow-3: #c49a2e;
-  --vp-c-yellow-soft: color-mix(in srgb, #e8c96a 16%, transparent);
-
-  --vp-backdrop-bg-color: color-mix(in oklch, var(--navy) 70%, transparent);
+  --vp-backdrop-bg-color: color-mix(in oklch, var(--ink) 50%, transparent);
 }
