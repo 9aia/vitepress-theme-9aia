@@ -50,7 +50,7 @@
 
 .VPFeatures .container .items {
   display: grid;
-  gap: calc(var(--spacing) * 4);
+  gap: calc(var(--spacing) * 5);
   grid-template-columns: 1fr;
 }
 
@@ -65,11 +65,19 @@
 }
 
 .VPFeatures .VPFeature {
-  border-radius: var(--radius);
+  border-radius: var(--radius-blob-a);
   background: var(--card);
   padding: 1.25rem;
   box-shadow: 0 1px 3px rgb(20 20 60 / 0.08);
   transition: all 0.15s ease;
+}
+
+.VPFeatures .items .item:nth-child(3n + 2) .VPFeature {
+  border-radius: var(--radius-blob-b);
+}
+
+.VPFeatures .items .item:nth-child(3n) .VPFeature {
+  border-radius: var(--radius-blob-c);
 }
 
 .VPFeatures .VPFeature:hover,

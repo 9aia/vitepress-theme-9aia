@@ -86,8 +86,7 @@ button:focus-visible,
 }
 
 .vp-doc table {
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
+  border-radius: var(--radius-blob-a);
   background: var(--card);
   overflow: hidden;
 }
@@ -102,9 +101,8 @@ button:focus-visible,
 }
 
 div[class*="language-"] {
-  border-radius: var(--radius);
+  border-radius: var(--radius-blob-a);
   background: var(--card);
-  border: 1px solid var(--border);
 }
 
 div[class*="language-"] pre {
@@ -120,5 +118,5 @@ div[class*="language-"] pre {
 }
 
 .vp-doc .custom-block {
-  border-radius: var(--radius);
+  border-radius: var(--radius-blob-a);
 }
