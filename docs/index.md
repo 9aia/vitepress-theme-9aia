@@ -18,8 +18,8 @@ features:
   - title: Rounded by default
     details: Pill buttons, rounded cards, code blocks and tables — no square corners anywhere.
     link: /guide/theming
-  - title: Blue #00f
-    details: An oklch blue ramp anchored on pure blue, tuned for both light and dark mode.
+  - title: Indigo blue
+    details: An oklch blue palette — periwinkle, lavender, powder — tuned for both light and dark mode.
     link: /guide/theming
   - title: Zero-build install
     details: Ship as source over a git URL — your VitePress build compiles the theme for you.

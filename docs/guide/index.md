@@ -6,10 +6,10 @@
 pnpm add github:9aia/vitepress-theme-9aia
 ```
 
-Pin a tag or commit for reproducible installs:
+Pin a commit for reproducible installs (no tags are cut yet):
 
 ```bash
-pnpm add github:9aia/vitepress-theme-9aia#v0.1.0
+pnpm add github:9aia/vitepress-theme-9aia#c27ab44
 ```
 
 ## Use

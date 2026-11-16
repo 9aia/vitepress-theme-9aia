@@ -1,7 +1,8 @@
 # 9aia design language
 
-An ecosystem rendered as a system: organisms that are machines. Blue `#00f`
-is the brand; rounded is the material; the motifs are organic — dots,
+An ecosystem rendered as a system: organisms that are machines. An oklch
+indigo (`--blue`) is the brand; rounded is the material; the motifs are
+organic — dots,
 ports, wires, strata, specimens, and the murmuration.
 
 The language is four layers. Each depends only on the layers below it, so
@@ -11,7 +12,8 @@ consumers can take as much or as little as they need.
 
 Primitives → semantic roles → pattern tokens.
 
-- **Primitives**: `--blue` (`#00f`), `--hue`, `--paper`, `--ink`, `--navy`.
+- **Primitives**: `--blue` (`oklch(0.56 0.16 260)`), `--hue`, `--paper`,
+  `--ink`, `--navy`, plus the `--pastel-*` palette.
   Re-theme everything by overriding these — every tint derives from them.
 - **Semantic**: `--primary`, `--background`/`--foreground`, `--card`,
   `--secondary`, `--accent`, `--border`, `--ring`, `--chart-1..5`,
@@ -47,7 +49,9 @@ Composable motif classes:
 ## Layer 3 — components (`src/components/`)
 
 Registered globally by the theme's `enhanceApp` — usable in any markdown
-without imports. All props are typed (`LayerItem`, `SpecRow`, `LedgerItem`).
+without imports (`MetaBlobs` is the exception: the layout mounts it
+itself on `hero.blobs: true` pages). All props are typed (`LayerItem`,
+`SpecRow`, `LedgerItem`).
 
 | Component       | Motif                                                                          | Props                                  |
 | --------------- | ------------------------------------------------------------------------------ | -------------------------------------- |
@@ -57,6 +61,7 @@ without imports. All props are typed (`LayerItem`, `SpecRow`, `LedgerItem`).
 | `<Specimen>`    | deterministic organic blob per name                                            | `name: string`                         |
 | `<SpecRows>`    | spec-sheet key/value rows                                                      | `rows: SpecRow[]`                      |
 | `<Ledger>`      | record-table registry — specimen, status pill, keywords, links, status filters | `items: LedgerItem[]`, `filterable?`   |
+| `<MetaBlobs>`   | hero metaball field — 26 drifting blobs, mouse repulsion, reduced-motion safe  | mounted via `hero.blobs: true`         |
 
 ## Layer 4 — composition
 
@@ -73,5 +78,5 @@ SpecRows, Ledger).
   mapping — the manifest conceit gives variety without visual noise.
 - **Serif is the organism, mono is the machine.** The naming tension
   (fungi/starlings as binaries) is the brand; typography carries it.
-- **Blue glows in the dark.** Light mode is pure `#00f`; dark mode is a
-  navy field with a brighter, bioluminescent accent.
+- **Blue glows in the dark.** Light mode sits on pastel paper; dark mode
+  is a deep pastel indigo field with a brighter, bioluminescent accent.

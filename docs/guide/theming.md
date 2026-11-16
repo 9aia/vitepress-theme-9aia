@@ -20,8 +20,8 @@ export default Theme;
 
 ## Primitives
 
-- `--blue` — the brand anchor, `#00f` by default
-- `--hue` — the oklch hue every ramp/tint derives from (`264`)
+- `--blue` — the brand anchor, `oklch(0.56 0.16 260)` by default
+- `--hue` — the oklch hue every ramp/tint derives from (`263`)
 - `--paper`, `--ink`, `--navy` — light bg, light fg, dark bg
 
 ## Semantic
@@ -42,8 +42,9 @@ export default Theme;
 
 ## Dark mode
 
-`.dark` redefines every semantic token — a navy field with a brighter,
-bioluminescent accent, since pure `#00f` is too dark on dark surfaces.
+`.dark` redefines every semantic token — a deep pastel indigo field with a
+brighter, bioluminescent accent (the light-mode blue is too dark on dark
+surfaces).
 
 ## Site options
 

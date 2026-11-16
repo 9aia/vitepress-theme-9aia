@@ -1,9 +1,9 @@
 # vitepress-theme-9aia
 
-The 9aia design language for VitePress — rounded, blue (`#00f`),
+The 9aia design language for VitePress — rounded, blue (oklch indigo),
 organism-aware. Extends the default theme with a token system, composable
 motif patterns, and components: murmuration canvas, wire logs, strata
-layers, specimen glyphs, spec rows, ledger registries.
+layers, specimen glyphs, spec rows, ledger registries, metaball hero.
 
 See [DESIGN.md](./DESIGN.md) for the system.
 
@@ -14,7 +14,7 @@ Distributed via git URL — no npm publish needed:
 ```bash
 pnpm add github:9aia/vitepress-theme-9aia
 # or pin a ref
-pnpm add github:9aia/vitepress-theme-9aia#v0.1.0
+pnpm add github:9aia/vitepress-theme-9aia#c27ab44
 ```
 
 ## Usage

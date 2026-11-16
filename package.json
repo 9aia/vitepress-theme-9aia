@@ -1,7 +1,7 @@
 {
   "name": "vitepress-theme-9aia",
   "version": "0.0.0",
-  "description": "Rounded, blue (#00f) VitePress theme — the 9aia docs look.",
+  "description": "Rounded, blue (oklch indigo) VitePress theme — the 9aia docs look.",
   "keywords": [
     "9aia",
     "vitepress",
