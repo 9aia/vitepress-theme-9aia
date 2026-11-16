@@ -16,6 +16,13 @@
   border-radius: 999px;
 }
 
+/* VitePress sets the search button to justify-content: flex-start, so
+   the Ctrl/⌘ K hint sits right after the placeholder instead of at the
+   pill's end. Push it to the far edge. */
+.VPNavBarSearch .DocSearch-Button .DocSearch-Button-Keys {
+  margin-left: auto;
+}
+
 /* Search bar grows into the nav's free space but caps at a readable
    pill width. `margin-right: auto` keeps the leftover space on the
    right so the pill anchors next to the title while the menu/appearance
