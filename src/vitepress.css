@@ -16,12 +16,26 @@
   border-radius: 999px;
 }
 
-/* Search bar fills the nav's free space but caps at a readable pill
-   width so it doesn't stretch across the whole navbar on wide screens.
-   Mobile keeps the compact icon button. */
+/* Search bar grows into the nav's free space but caps at a readable
+   pill width. `margin-right: auto` keeps the leftover space on the
+   right so the pill anchors next to the title while the menu/appearance
+   cluster stays right-aligned (without it `justify-content: flex-end`
+   floats the search against the menu). The inner button must be told
+   to fill its wrapper — by default it shrinks to ~150px of content
+   width and the cap just becomes dead space. Mobile keeps the compact
+   icon button. */
 @media (min-width: 768px) {
   .VPNavBarSearch {
-    max-width: 480px;
+    flex-grow: 1;
+    min-width: 200px;
+    max-width: 560px;
+    margin-right: auto;
+  }
+
+  .VPNavBarSearch > #local-search,
+  .VPNavBarSearch > #docsearch {
+    flex: 1 1 auto;
+    min-width: 0;
   }
 }
 
