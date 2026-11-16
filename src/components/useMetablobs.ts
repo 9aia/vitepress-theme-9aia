@@ -274,7 +274,10 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       // slow-motion beat, not a teleport.
       const dt = Math.min((t - last) / 1000, 0.06) || 0;
       last = t;
-      const fieldScale = Math.max(0.45, Math.min(Math.min(w, h * 1.4) / 900, 1.15));
+      // blob radius scales with the field: ~min(w, h*1.4)/900, floored
+      // low enough that small containers (BlobCluster cards) get
+      // proportionally tiny blobs instead of hero-sized ones
+      const fieldScale = Math.max(0.18, Math.min(Math.min(w, h * 1.4) / 900, 1.15));
 
       // pointer attraction — blobs drift gently toward the cursor; a
       // click/tap widens the radius and ~quadruples the pull briefly
@@ -282,8 +285,9 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       const pointerRange = clicking ? 380 : 240;
       const pointerAccel = clicking ? 48 : 12; // px/s² at zero distance
       // contain margin in px — max blob radius (× iso-field overshoot
-      // ~1.15) + wobble/headroom; normalized per axis below
-      const padPx = contain ? Math.max(...parts.map((q) => q.r)) * fieldScale * 1.15 + 18 : 0;
+      // ~1.15) + wobble/headroom, all scaled by fieldScale so small
+      // containers don't over-margin; normalized per axis below
+      const padPx = contain ? Math.max(...parts.map((q) => q.r)) * fieldScale * 1.15 + 14 * fieldScale + 4 : 0;
       // clamp so a tiny container can't invert the margins
       const mx = w > 0 ? Math.min(padPx / w, 0.45) : 0;
       const my = h > 0 ? Math.min(padPx / h, 0.45) : 0;
@@ -333,8 +337,8 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       }
       for (let i = 0; i < count; i++) {
         const p = parts[i];
-        const wx = Math.sin(t / 7800 + p.wob) * 14;
-        const wy = Math.cos(t / 9600 + p.wob) * 10;
+        const wx = Math.sin(t / 7800 + p.wob) * 14 * fieldScale;
+        const wy = Math.cos(t / 9600 + p.wob) * 10 * fieldScale;
         field[i * 3] = (p.x * w + wx) * (el.width / w);
         field[i * 3 + 1] = ((1 - p.y) * h - wy) * (el.height / h);
         field[i * 3 + 2] = p.r * fieldScale * (el.width / w);
