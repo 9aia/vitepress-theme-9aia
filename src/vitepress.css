@@ -116,6 +116,17 @@
   text-decoration-thickness: 2px;
 }
 
+/* Feature icons: `features[].icon` is injected via v-html and most
+   SVG snippets carry no intrinsic width/height — without this they
+   render at the SVG default (300×150) or collapse inconsistently
+   across sites. The .icon box is 48px; the glyph inside is 24px,
+   matching the default theme's font-size. */
+.VPFeature .icon svg,
+.VPFeature .icon .vpi {
+  width: 24px;
+  height: 24px;
+}
+
 .VPSidebarItem .item {
   border-radius: var(--radius-sm);
   transition: all 0.15s ease;

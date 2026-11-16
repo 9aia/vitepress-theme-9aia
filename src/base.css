@@ -121,3 +121,43 @@ div[class*="language-"] pre {
 .vp-doc .custom-block {
   border-radius: var(--radius-blob-a);
 }
+
+/* Scrollbars — thin, shadcn-style: transparent track and corner,
+   muted rounded thumb that strengthens on hover. --vp-c-gray-* are
+   redefined in .dark, so the same rules adapt to both modes.
+   Firefox gets scrollbar-width/color on the scrollable regions;
+   the webkit pseudos below are unqualified and cover every
+   scrollbar (page, sidebar, modals, code blocks) in Chromium/Safari. */
+html,
+.vp-doc,
+.VPSidebar,
+.VPNavScreen,
+.VPLocalSearchBox .results,
+pre,
+div[class*="language-"] pre,
+.DocSearch-Modal,
+.DocSearch-Screen {
+  scrollbar-width: thin;
+  scrollbar-color: var(--vp-c-gray-1) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--vp-c-gray-1);
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--vp-c-gray-2);
+}
