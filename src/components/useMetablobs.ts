@@ -285,10 +285,9 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       // slow-motion beat, not a teleport.
       const dt = Math.min((t - last) / 1000, 0.06) || 0;
       last = t;
-      // blob radius scales with the field: ~min(w, h*1.4)/900, floored
-      // low enough that small containers (BlobCluster cards) get
-      // proportionally tiny blobs instead of hero-sized ones
-      const fieldScale = Math.max(0.18, Math.min(Math.min(w, h * 1.4) / 900, 1.15));
+      // blob radius scales with the field's smaller dimension so every
+      // container — hero or card — gets the same proportional blob size
+      const fieldScale = Math.max(0.15, Math.min(Math.min(w, h) / 1000, 1.15));
 
       // pointer attraction — blobs drift gently toward the cursor; a
       // click/tap widens the radius and ~quadruples the pull briefly
