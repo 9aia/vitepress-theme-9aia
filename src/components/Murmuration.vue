@@ -34,7 +34,7 @@ onMounted(() => {
   ro = new ResizeObserver(resize);
   ro.observe(canvas);
 
-  const accent = getComputedStyle(canvas).getPropertyValue("--vp-c-brand-1").trim() || "#0000ff";
+  const accent = getComputedStyle(canvas).getPropertyValue("--vp-c-brand-1").trim() || "#6677d9";
 
   const N = props.count;
   const boids: Boid[] = Array.from({ length: N }, () => ({

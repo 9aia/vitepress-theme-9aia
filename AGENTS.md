@@ -6,13 +6,13 @@ system; [README.md](README.md) for consumer usage.
 
 ## Layout
 
-| Path | Role |
-| --- | --- |
-| `src/index.ts` | theme entry — extends the default VitePress theme, registers components globally |
+| Path              | Role                                                                                                         |
+| ----------------- | ------------------------------------------------------------------------------------------------------------ |
+| `src/index.ts`    | theme entry — extends the default VitePress theme, registers components globally                             |
 | `src/components/` | Vue components (Murmuration canvas, wire logs, strata layers, specimen glyphs, spec rows, ledger registries) |
-| `src/*.css` | token/pattern/base/vitepress stylesheets, each its own `exports` subpath |
-| `docs/` | demo site exercising every component — not the org docs-worktree convention |
-| `tests/` | unit tests (`vp test`) |
+| `src/*.css`       | token/pattern/base/vitepress stylesheets, each its own `exports` subpath                                     |
+| `docs/`           | demo site exercising every component — not the org docs-worktree convention                                  |
+| `tests/`          | unit tests (`vp test`)                                                                                       |
 
 ## Commands
 

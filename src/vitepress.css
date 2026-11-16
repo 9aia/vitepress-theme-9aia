@@ -143,7 +143,7 @@
 
 :root {
   --vp-c-white: oklch(1 0 0);
-  --vp-c-black: oklch(0.1 0.02 264);
+  --vp-c-black: oklch(0.2 0.03 264);
   --vp-c-neutral: var(--vp-c-black);
   --vp-c-neutral-inverse: var(--vp-c-white);
 
@@ -185,22 +185,22 @@
   --vp-c-purple-3: var(--chart-5);
   --vp-c-purple-soft: color-mix(in oklch, var(--chart-3) 14%, transparent);
 
-  --vp-c-green-1: #18794e;
-  --vp-c-green-2: #299764;
-  --vp-c-green-3: #30a46c;
-  --vp-c-green-soft: color-mix(in srgb, #30a46c 14%, transparent);
+  --vp-c-green-1: #3d9e6b;
+  --vp-c-green-2: #54b57e;
+  --vp-c-green-3: #6cc493;
+  --vp-c-green-soft: color-mix(in srgb, #6cc493 16%, transparent);
 
-  --vp-c-yellow-1: #946800;
-  --vp-c-yellow-2: #ad7600;
-  --vp-c-yellow-3: #c28400;
-  --vp-c-yellow-soft: color-mix(in srgb, #c28400 14%, transparent);
+  --vp-c-yellow-1: #9a7b22;
+  --vp-c-yellow-2: #b8922f;
+  --vp-c-yellow-3: #cfa845;
+  --vp-c-yellow-soft: color-mix(in srgb, #cfa845 16%, transparent);
 
   --vp-c-red-1: var(--destructive);
   --vp-c-red-2: color-mix(in srgb, var(--destructive), white 20%);
   --vp-c-red-3: color-mix(in srgb, var(--destructive), black 20%);
   --vp-c-red-soft: color-mix(in srgb, var(--destructive) 14%, transparent);
 
-  --vp-c-sponsor: #cb1d63;
+  --vp-c-sponsor: #c95d8a;
 
   --vp-sidebar-bg-color: var(--sidebar);
 
@@ -252,15 +252,15 @@
   --vp-c-gray-3: oklch(0.5 0.04 264);
   --vp-c-gray-soft: color-mix(in oklch, var(--foreground) 14%, transparent);
 
-  --vp-c-green-1: #3dd68c;
-  --vp-c-green-2: #30a46c;
-  --vp-c-green-3: #298e5e;
-  --vp-c-green-soft: color-mix(in srgb, #3dd68c 14%, transparent);
+  --vp-c-green-1: #8adbb0;
+  --vp-c-green-2: #63c493;
+  --vp-c-green-3: #4aa878;
+  --vp-c-green-soft: color-mix(in srgb, #8adbb0 16%, transparent);
 
-  --vp-c-yellow-1: #ffd60a;
-  --vp-c-yellow-2: #e8b400;
-  --vp-c-yellow-3: #c99a00;
-  --vp-c-yellow-soft: color-mix(in srgb, #ffd60a 14%, transparent);
+  --vp-c-yellow-1: #e8c96a;
+  --vp-c-yellow-2: #d9b23f;
+  --vp-c-yellow-3: #c49a2e;
+  --vp-c-yellow-soft: color-mix(in srgb, #e8c96a 16%, transparent);
 
   --vp-backdrop-bg-color: color-mix(in srgb, #000 65%, transparent);
 }
