@@ -201,6 +201,9 @@ void main() { gl_Position = vec4(p, 0., 1.); }
         vx,
         vy,
         wob: Math.random() * Math.PI * 2,
+        // per-blob wobble frequency — a shared frequency makes the whole
+        // field slide in synchronized waves that reads as convergence
+        wf: 0.6 + Math.random() * 0.8,
         c: palette[i % palette.length],
       };
     });
@@ -336,8 +339,8 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       }
       for (let i = 0; i < count; i++) {
         const p = parts[i];
-        const wx = Math.sin(t / 7800 + p.wob) * 14;
-        const wy = Math.cos(t / 9600 + p.wob) * 10;
+        const wx = Math.sin((t / 7800) * p.wf + p.wob) * 14;
+        const wy = Math.cos((t / 9600) * p.wf + p.wob) * 10;
         field[i * 3] = (p.x * w + wx) * (el.width / w);
         field[i * 3 + 1] = ((1 - p.y) * h - wy) * (el.height / h);
         field[i * 3 + 2] = p.r * fieldScale * (el.width / w);
