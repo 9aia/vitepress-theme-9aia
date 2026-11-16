@@ -190,8 +190,16 @@ void main() { gl_Position = vec4(p, 0., 1.); }
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
     const parts = Array.from({ length: count }, (_, i) => {
-      const vx = (Math.random() - 0.5) * 0.0055;
-      const vy = (Math.random() - 0.5) * 0.0045;
+      let vx = (Math.random() - 0.5) * 0.0055;
+      let vy = (Math.random() - 0.5) * 0.0045;
+      // near-zero cruise velocity leaves a blob crawling in place —
+      // in small containers the whole field can settle into a static
+      // clump. Give stalled blobs a fresh direction at readable speed.
+      if (Math.hypot(vx, vy) < 0.002) {
+        const a = Math.random() * Math.PI * 2;
+        vx = Math.cos(a) * 0.003;
+        vy = Math.sin(a) * 0.003;
+      }
       return {
         x: Math.random(),
         y: Math.random(),
