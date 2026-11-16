@@ -4,7 +4,10 @@ import { useMetablobs, type MetablobColor } from "./useMetablobs.ts";
 
 // A "species" cluster — a small single-hue metaball field in a rounded
 // card. Several can appear per page, so the field runs cheap: fewer
-// blobs, capped DPR, reduced resolution, no pointer repulsion. The
+// blobs, capped DPR, reduced resolution, no pointer interaction.
+// `contain` keeps blob centers inside a safe margin so metaballs read
+// as trapped in the card rather than sliced by its edge, and
+// `sizeVariety` mixes large and small blobs inside the field. The
 // default slot renders an optional mono caption inside the card.
 const props = withDefaults(
   defineProps<{
@@ -22,6 +25,8 @@ useMetablobs(canvas, {
   maxDpr: 1.5,
   resolutionScale: 0.6,
   interactive: false,
+  contain: true,
+  sizeVariety: 0.45,
 });
 </script>
 

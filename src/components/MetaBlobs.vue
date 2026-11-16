@@ -19,7 +19,9 @@ onMounted(() => {
   document.querySelector(".VPHero")?.appendChild(canvas.value!);
 });
 
-useMetablobs(canvas, { colors: props.colors });
+// Mild radius variety keeps the hero field organic without breaking
+// the single-hue read; full-bleed drift (no `contain`).
+useMetablobs(canvas, { colors: props.colors, sizeVariety: 0.2 });
 </script>
 
 <template>

@@ -2,14 +2,15 @@ import { onMounted, onUnmounted, type Ref } from "vue";
 
 // Shared WebGL metaball field — the rendering core behind MetaBlobs
 // (hero) and BlobCluster (species cards). One fragment-shader pass loops
-// every blob per pixel, so resolution is the main cost: callers on small
-// containers pass a low `resolutionScale`/`maxDpr`, and the composable
-// additionally degrades DPR + resolution on compact viewports
+// every blob per pixel, so resolution is the main cost: the soft
+// low-fi profile (reduced DPR + resolutionScale < 1) is the default
+// everywhere, and the composable degrades further on compact viewports
 // (< `mobileWidth` or `pointer: coarse`).
 //
 // Ported from gaia-docus `app/components/MetaBlobs.vue` — 26 drifting
-// blobs, mouse repulsion, wobble, reduced-motion + offscreen/hidden
-// gating — with the gaia-docus pastel palette.
+// blobs, pointer attraction + click impulse, mutual blob attraction,
+// wobble, reduced-motion + offscreen/hidden gating — with the
+// gaia-docus pastel palette.
 
 // Pastel presets — the gaia-docus MetaBlobs family, matching the
 // `--pastel-*` primitives in tokens.css. Triples are shader-space 0..1.
@@ -77,14 +78,24 @@ export interface MetablobsOptions {
   count?: number;
   /** palette — preset name(s), rgb triple(s); default is the 6-hue mix */
   colors?: MetablobPalette;
-  /** devicePixelRatio ceiling — default 2; compact viewports cap at 1.25 */
+  /** devicePixelRatio ceiling — default 1.5; compact viewports cap at 1.25 */
   maxDpr?: number;
-  /** extra backing-store scale — default 1; compact viewports add ×0.75 */
+  /** backing-store scale — default 0.7 (soft low-fi baseline); compact
+      viewports add ×0.75 */
   resolutionScale?: number;
-  /** mouse repulsion — default true; false skips the pointermove listener */
+  /** pointer attraction — default true; false skips the pointermove/
+      pointerdown listeners (mutual blob attraction still applies) */
   interactive?: boolean;
   /** viewport width below which the compact profile kicks in — default 768 */
   mobileWidth?: number;
+  /** keep blob centers inside a safe inner margin (max blob radius +
+      padding) so metaballs never get sliced by the container edge —
+      default false (full-bleed, wrap-around drift) */
+  contain?: boolean;
+  /** per-blob radius spread as a fraction of the base radius — 0 keeps
+      the stock 30–76px spread, 0.45 spans roughly 0.55×–1.45× —
+      default 0 */
+  sizeVariety?: number;
 }
 
 export function useMetablobs(
@@ -98,10 +109,12 @@ export function useMetablobs(
     if (!el) return;
     const count = options.count ?? 26;
     const palette = resolveMetablobColors(options.colors);
-    const maxDpr = options.maxDpr ?? 2;
-    const resolutionScale = options.resolutionScale ?? 1;
+    const maxDpr = options.maxDpr ?? 1.5;
+    const resolutionScale = options.resolutionScale ?? 0.7;
     const interactive = options.interactive ?? true;
     const mobileWidth = options.mobileWidth ?? 768;
+    const contain = options.contain ?? false;
+    const sizeVariety = options.sizeVariety ?? 0;
     const coarse = window.matchMedia("(pointer: coarse)").matches;
 
     const gl = el.getContext("webgl", {
@@ -183,7 +196,7 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       return {
         x: Math.random(),
         y: Math.random(),
-        r: 30 + Math.random() * 46,
+        r: (30 + Math.random() * 46) * (1 + (Math.random() * 2 - 1) * sizeVariety),
         vx0: vx,
         vy0: vy,
         vx,
@@ -203,8 +216,10 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       h = 0;
 
     function resize() {
-      // Compact profile: small viewports and coarse pointers can't afford
-      // a full-res fragment loop — cap DPR and shrink the backing store.
+      // Soft low-fi is the baseline on every viewport — the field reads
+      // as a dreamy low-res texture, not sharp sprites. Compact
+      // viewports and coarse pointers degrade further: lower DPR cap,
+      // ×0.75 backing-store scale.
       const compact = window.innerWidth < mobileWidth || coarse;
       const dpr = Math.min(window.devicePixelRatio || 1, compact ? Math.min(maxDpr, 1.25) : maxDpr);
       const scale = resolutionScale * (compact ? 0.75 : 1);
@@ -218,13 +233,30 @@ void main() { gl_Position = vec4(p, 0., 1.); }
     }
     resize();
     const onResize = () => resize();
-    const onPointerMove = (e: PointerEvent) => {
+    // pointer coords in canvas space, gl convention (y up from bottom)
+    const pointerPos = (e: PointerEvent) => {
       const rect = el.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = rect.height - (e.clientY - rect.top); // gl coords
+      return { x: e.clientX - rect.left, y: rect.height - (e.clientY - rect.top) };
+    };
+    const onPointerMove = (e: PointerEvent) => {
+      const p = pointerPos(e);
+      mouse.x = p.x;
+      mouse.y = p.y;
+    };
+    // click/tap fires a stronger, wider pull for ~550ms — `clickUntil`
+    // shares the rAF timestamp clock (DOMHighResTimeStamp)
+    let clickUntil = 0;
+    const onPointerDown = (e: PointerEvent) => {
+      const p = pointerPos(e);
+      mouse.x = p.x;
+      mouse.y = p.y;
+      clickUntil = performance.now() + 550;
     };
     addEventListener("resize", onResize);
-    if (interactive) addEventListener("pointermove", onPointerMove);
+    if (interactive) {
+      addEventListener("pointermove", onPointerMove);
+      addEventListener("pointerdown", onPointerDown);
+    }
 
     let last = 0;
 
@@ -232,18 +264,54 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       // delta-time — velocities are per second, refresh-rate independent
       const dt = Math.min((t - last) / 1000, 0.1) || 0;
       last = t;
-      // natural repulsion — force → velocity, damped back toward cruise
+      const fieldScale = Math.max(0.45, Math.min(Math.min(w, h * 1.4) / 900, 1.15));
+
+      // mutual attraction — nearby pairs drift gently toward each other.
+      // The impulse is symmetric (equal and opposite on both blobs), so
+      // pairs approach without collapsing; range + small accel keep it
+      // subtle. O(n²) but n ≤ ~26.
+      const MATE_RANGE = 240;
+      const MATE_ACCEL = 14; // px/s² at zero distance, fading to 0 at range
+      for (let i = 0; i < count; i++) {
+        const a = parts[i];
+        const ax = a.x * w;
+        const ay = (1 - a.y) * h;
+        for (let j = i + 1; j < count; j++) {
+          const b = parts[j];
+          const dx = b.x * w - ax;
+          const dy = (1 - b.y) * h - ay;
+          const d = Math.hypot(dx, dy);
+          if (d < 1 || d >= MATE_RANGE) continue;
+          const s = ((1 - d / MATE_RANGE) * MATE_ACCEL * dt) / d;
+          a.vx += (dx * s) / w;
+          a.vy += (dy * s) / h;
+          b.vx -= (dx * s) / w;
+          b.vy -= (dy * s) / h;
+        }
+      }
+
+      // pointer attraction — blobs pull gently toward the cursor; a
+      // click/tap widens the radius and triples the pull for ~550ms
+      const clicking = t < clickUntil;
+      const pointerRange = clicking ? 420 : 280;
+      const pointerAccel = clicking ? 90 : 26; // px/s² at zero distance
+      // contain margin in px — max blob radius (× iso-field overshoot
+      // ~1.15) + wobble/headroom; normalized per axis below
+      const padPx = contain ? Math.max(...parts.map((q) => q.r)) * fieldScale * 1.15 + 18 : 0;
+      // clamp so a tiny container can't invert the margins
+      const mx = w > 0 ? Math.min(padPx / w, 0.45) : 0;
+      const my = h > 0 ? Math.min(padPx / h, 0.45) : 0;
+      const k = Math.pow(0.93, dt * 60);
       for (const p of parts) {
         const px = p.x * w;
         const py = (1 - p.y) * h;
-        const dx = px - mouse.x;
-        const dy = py - mouse.y;
+        const dx = mouse.x - px;
+        const dy = mouse.y - py;
         const d = Math.hypot(dx, dy) || 1;
-        const f = Math.max(0, 1 - d / 240);
-        p.vx += ((dx / d) * f * f * 32.0 * dt) / w;
-        p.vy += ((dy / d) * f * f * 32.0 * dt) / h;
+        const f = Math.max(0, 1 - d / pointerRange);
+        p.vx += ((dx / d) * f * f * pointerAccel * dt) / w;
+        p.vy += ((dy / d) * f * f * pointerAccel * dt) / h;
         // spring back to cruise velocity + speed cap
-        const k = Math.pow(0.93, dt * 60);
         p.vx = p.vx0 + (p.vx - p.vx0) * k;
         p.vy = p.vy0 + (p.vy - p.vy0) * k;
         const sp = Math.hypot(p.vx * w, p.vy * h);
@@ -253,12 +321,30 @@ void main() { gl_Position = vec4(p, 0., 1.); }
         }
         p.x += p.vx * dt * 60;
         p.y += p.vy * dt * 60;
-        if (p.x < -0.1) p.x = 1.1;
-        if (p.x > 1.1) p.x = -0.1;
-        if (p.y < -0.1) p.y = 1.1;
-        if (p.y > 1.1) p.y = -0.1;
+        if (contain) {
+          // reflect off the safe inner margin so blobs read as
+          // trapped/enclosed instead of wrap-around drifters
+          if (p.x < mx) {
+            p.x = mx;
+            p.vx = Math.abs(p.vx) * 0.9;
+          } else if (p.x > 1 - mx) {
+            p.x = 1 - mx;
+            p.vx = -Math.abs(p.vx) * 0.9;
+          }
+          if (p.y < my) {
+            p.y = my;
+            p.vy = Math.abs(p.vy) * 0.9;
+          } else if (p.y > 1 - my) {
+            p.y = 1 - my;
+            p.vy = -Math.abs(p.vy) * 0.9;
+          }
+        } else {
+          if (p.x < -0.1) p.x = 1.1;
+          if (p.x > 1.1) p.x = -0.1;
+          if (p.y < -0.1) p.y = 1.1;
+          if (p.y > 1.1) p.y = -0.1;
+        }
       }
-      const fieldScale = Math.max(0.45, Math.min(Math.min(w, h * 1.4) / 900, 1.15));
       for (let i = 0; i < count; i++) {
         const p = parts[i];
         const wx = Math.sin(t / 7800 + p.wob) * 14;
@@ -308,7 +394,10 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       io?.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
       removeEventListener("resize", onResize);
-      if (interactive) removeEventListener("pointermove", onPointerMove);
+      if (interactive) {
+        removeEventListener("pointermove", onPointerMove);
+        removeEventListener("pointerdown", onPointerDown);
+      }
     };
   });
 
