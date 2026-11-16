@@ -19,9 +19,15 @@ onMounted(() => {
   document.querySelector(".VPHero")?.appendChild(canvas.value!);
 });
 
-// Mild radius variety keeps the hero field organic without breaking
-// the single-hue read; full-bleed drift (no `contain`).
-useMetablobs(canvas, { colors: props.colors, sizeVariety: 0.2 });
+// The hero renders at full quality — the soft low-fi profile is for
+// the small BlobCluster cards, not the big field. Mild radius variety
+// keeps the field organic; full-bleed drift (no `contain`).
+useMetablobs(canvas, {
+  colors: props.colors,
+  sizeVariety: 0.2,
+  resolutionScale: 1,
+  maxDpr: 2,
+});
 </script>
 
 <template>

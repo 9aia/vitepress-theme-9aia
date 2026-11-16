@@ -285,10 +285,9 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       const pointerRange = clicking ? 380 : 240;
       const pointerAccel = clicking ? 48 : 12; // px/s² at zero distance
       // contain margin in px — max blob radius (× iso-field overshoot
-      // ~1.15) + wobble/headroom, all scaled by fieldScale so small
-      // containers don't over-margin; normalized per axis below
+      // ~1.15) + absolute wobble/headroom; normalized per axis below
       const padPx = contain
-        ? Math.max(...parts.map((q) => q.r)) * fieldScale * 1.15 + 14 * fieldScale + 4
+        ? Math.max(...parts.map((q) => q.r)) * fieldScale * 1.15 + 18
         : 0;
       // clamp so a tiny container can't invert the margins
       const mx = w > 0 ? Math.min(padPx / w, 0.45) : 0;
@@ -339,8 +338,8 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       }
       for (let i = 0; i < count; i++) {
         const p = parts[i];
-        const wx = Math.sin(t / 7800 + p.wob) * 14 * fieldScale;
-        const wy = Math.cos(t / 9600 + p.wob) * 10 * fieldScale;
+        const wx = Math.sin(t / 7800 + p.wob) * 14;
+        const wy = Math.cos(t / 9600 + p.wob) * 10;
         field[i * 3] = (p.x * w + wx) * (el.width / w);
         field[i * 3 + 1] = ((1 - p.y) * h - wy) * (el.height / h);
         field[i * 3 + 2] = p.r * fieldScale * (el.width / w);
