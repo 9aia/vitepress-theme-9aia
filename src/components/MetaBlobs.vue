@@ -19,14 +19,14 @@ onMounted(() => {
   document.querySelector(".VPHero")?.appendChild(canvas.value!);
 });
 
-// The hero renders at full quality — the soft low-fi profile is for
-// the small BlobCluster cards, not the big field. Mild radius variety
-// keeps the field organic; full-bleed drift (no `contain`).
+// Same soft low-fi profile as the BlobCluster cards — one rendering
+// quality across the site. Mild radius variety keeps the field organic;
+// full-bleed drift (no `contain`).
 useMetablobs(canvas, {
   colors: props.colors,
   sizeVariety: 0.2,
-  resolutionScale: 1,
-  maxDpr: 2,
+  resolutionScale: 0.6,
+  maxDpr: 1.5,
 });
 </script>
 

@@ -301,6 +301,32 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       // clamp so a tiny container can't invert the margins
       const mx = w > 0 ? Math.min(padPx / w, 0.45) : 0;
       const my = h > 0 ? Math.min(padPx / h, 0.45) : 0;
+      // contained fields only: gentle short-range separation keeps blobs
+      // from merging into one static clump — they stay distinct drifters
+      // like the hero field, just bounded. Equal-and-opposite impulses,
+      // O(n²) but n ≤ ~14 in containers.
+      if (contain) {
+        const SEP_ACCEL = 40; // px/s² at contact, fading to 0 at minDist
+        for (let i = 0; i < count; i++) {
+          const a = parts[i];
+          const ax = a.x * w;
+          const ay = (1 - a.y) * h;
+          const ar = a.r * fieldScale;
+          for (let j = i + 1; j < count; j++) {
+            const b = parts[j];
+            const dx = b.x * w - ax;
+            const dy = (1 - b.y) * h - ay;
+            const d = Math.hypot(dx, dy);
+            const minD = (ar + b.r * fieldScale) * 0.85;
+            if (d < 1 || d >= minD) continue;
+            const s = ((1 - d / minD) * SEP_ACCEL * dt) / d;
+            a.vx += (dx * s) / w;
+            a.vy += (dy * s) / h;
+            b.vx -= (dx * s) / w;
+            b.vy -= (dy * s) / h;
+          }
+        }
+      }
       const k = Math.pow(0.93, dt * 60);
       for (const p of parts) {
         const px = p.x * w;
