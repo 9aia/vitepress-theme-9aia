@@ -4,4 +4,5 @@ export { default as Layers } from "./Layers.vue";
 export { default as Specimen } from "./Specimen.vue";
 export { default as SpecRows } from "./SpecRows.vue";
 export { default as Ledger } from "./Ledger.vue";
+export { default as MetaBlobs } from "./MetaBlobs.vue";
 export type { LayerItem, SpecRow, LedgerItem } from "./types.ts";

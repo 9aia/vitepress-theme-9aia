@@ -26,6 +26,10 @@
   border-radius: 999px;
 }
 
+.VPHero {
+  position: relative;
+}
+
 .VPHero .name {
   font-weight: 800;
   letter-spacing: -0.04em;
