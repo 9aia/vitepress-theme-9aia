@@ -8,9 +8,8 @@ import { onMounted, onUnmounted, type Ref } from "vue";
 // (< `mobileWidth` or `pointer: coarse`).
 //
 // Ported from gaia-docus `app/components/MetaBlobs.vue` — 26 drifting
-// blobs, pointer attraction + click impulse, mutual blob attraction,
-// wobble, reduced-motion + offscreen/hidden gating — with the
-// gaia-docus pastel palette.
+// blobs, pointer attraction + click impulse, wobble, reduced-motion +
+// offscreen/hidden gating — with the gaia-docus pastel palette.
 
 // Pastel presets — the gaia-docus MetaBlobs family, matching the
 // `--pastel-*` primitives in tokens.css. Triples are shader-space 0..1.
@@ -84,7 +83,7 @@ export interface MetablobsOptions {
       viewports add ×0.75 */
   resolutionScale?: number;
   /** pointer attraction — default true; false skips the pointermove/
-      pointerdown listeners (mutual blob attraction still applies) */
+      pointerdown/pointerout listeners */
   interactive?: boolean;
   /** viewport width below which the compact profile kicks in — default 768 */
   mobileWidth?: number;
@@ -276,30 +275,6 @@ void main() { gl_Position = vec4(p, 0., 1.); }
       const dt = Math.min((t - last) / 1000, 0.06) || 0;
       last = t;
       const fieldScale = Math.max(0.45, Math.min(Math.min(w, h * 1.4) / 900, 1.15));
-
-      // mutual attraction — nearby pairs drift gently toward each other.
-      // The impulse is symmetric (equal and opposite on both blobs), so
-      // pairs approach without collapsing; range + small accel keep it
-      // subtle. O(n²) but n ≤ ~26.
-      const MATE_RANGE = 200;
-      const MATE_ACCEL = 5; // px/s² at zero distance, fading to 0 at range
-      for (let i = 0; i < count; i++) {
-        const a = parts[i];
-        const ax = a.x * w;
-        const ay = (1 - a.y) * h;
-        for (let j = i + 1; j < count; j++) {
-          const b = parts[j];
-          const dx = b.x * w - ax;
-          const dy = (1 - b.y) * h - ay;
-          const d = Math.hypot(dx, dy);
-          if (d < 1 || d >= MATE_RANGE) continue;
-          const s = ((1 - d / MATE_RANGE) * MATE_ACCEL * dt) / d;
-          a.vx += (dx * s) / w;
-          a.vy += (dy * s) / h;
-          b.vx -= (dx * s) / w;
-          b.vy -= (dy * s) / h;
-        }
-      }
 
       // pointer attraction — blobs drift gently toward the cursor; a
       // click/tap widens the radius and ~quadruples the pull briefly
