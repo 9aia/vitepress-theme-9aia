@@ -86,6 +86,11 @@ button:focus-visible,
 }
 
 .vp-doc table {
+  /* VitePress default theme sets display:block + overflow-x:auto as a
+     wide-table scroll wrapper; the block box shrink-wraps the anonymous
+     inner table, so width:100% only stretches the card, not the grid.
+     Restore display:table so the table itself fills the container. */
+  display: table;
   width: 100%;
   border-radius: var(--radius-blob-a);
   background: var(--card);
