@@ -97,6 +97,19 @@ button:focus-visible,
   overflow: hidden;
 }
 
+/* Scroll wrapper added client-side by wrapTables() in index.ts —
+   restores VitePress's wide-table horizontal scroll now that the
+   table itself is display:table. The wrapper is a BFC, so the
+   table's vertical margins move here to keep spacing identical. */
+.vp-table-scroll {
+  overflow-x: auto;
+  margin-block: 20px;
+}
+
+.vp-table-scroll > table {
+  margin-block: 0;
+}
+
 .vp-doc th {
   background: var(--secondary);
   color: var(--secondary-foreground);

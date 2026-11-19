@@ -1,4 +1,4 @@
-import { defineComponent, h, onMounted, ref } from "vue";
+import { defineComponent, h, nextTick, onMounted, ref, watch } from "vue";
 import DefaultTheme from "vitepress/theme";
 import { useData, type Theme } from "vitepress";
 import {
@@ -29,6 +29,23 @@ if (typeof window !== "undefined") {
   });
 }
 
+// VitePress's default `.vp-doc table` is `display:block` +
+// `overflow-x:auto` — a scroll wrapper that shrink-wraps the anonymous
+// inner table, so narrow tables never fill the container. base.css
+// restores `display:table` for full width; this re-creates the scroll
+// behavior with a real wrapper div around each doc table.
+const wrapTables = () => {
+  document
+    .querySelectorAll<HTMLElement>(".vp-doc table:not([data-vp-wrapped])")
+    .forEach((table) => {
+      const scroller = document.createElement("div");
+      scroller.className = "vp-table-scroll";
+      table.before(scroller);
+      scroller.appendChild(table);
+      table.dataset.vpWrapped = "";
+    });
+};
+
 // Mounts the metaball canvas inside `.VPHero` on `layout: home` pages —
 // opt-in per page via `hero.blobs: true` in frontmatter (only 9aia.com
 // uses it). MetaBlobs moves its own canvas into the hero on mount
@@ -37,13 +54,18 @@ if (typeof window !== "undefined") {
 const Layout = defineComponent({
   name: "NineAiaLayout",
   setup() {
-    const { frontmatter, site, theme } = useData();
+    const { frontmatter, site, theme, page } = useData();
     siteBase = site.value.base;
     externalSections = (theme.value as { externalSections?: string[] }).externalSections ?? [];
     const mounted = ref(false);
     onMounted(() => {
       mounted.value = true;
+      wrapTables();
     });
+    watch(
+      () => page.value.relativePath,
+      () => nextTick(wrapTables),
+    );
     return () =>
       h(DefaultTheme.Layout, null, {
         "home-hero-before": () =>
